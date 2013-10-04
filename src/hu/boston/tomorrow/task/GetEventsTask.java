@@ -1,16 +1,23 @@
 package hu.boston.tomorrow.task;
 
+import hu.boston.tomorrow.model.Event;
+import hu.boston.tomorrow.model.MainModel;
 import hu.boston.tomorrow.services.WebServiceConnector;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Date;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-// TODO - Atirni
-public class GetEventsTask extends AsyncTask<Void, Void, ArrayList<String>> {
+public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 
 	private Context mContext;
 	private WebServiceConnector mConn;
@@ -21,7 +28,35 @@ public class GetEventsTask extends AsyncTask<Void, Void, ArrayList<String>> {
 	
 	@Override
 	protected void onPostExecute(
-			ArrayList<String> result) {
+			JSONArray result) {
+		
+		MainModel.getInstance().events = new ArrayList<Event>();
+		
+		for(int i = 0; i < result.length(); i++) {
+			try {
+				JSONObject json = (JSONObject) result.get(i);
+				
+				Event event = new Event();
+				event.setEventId(json.getString("EventId"));
+				event.setTitle(json.getString("Title"));
+				event.setDescription(json.getString("Description"));
+				
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");  
+				try {  
+					event.setStartTime(format.parse(json.getString("StartTime")));  
+					event.setEndTime(format.parse(json.getString("EndTime")));  
+				} catch (ParseException e) {  
+					event.setStartTime(new Date());
+					event.setEndTime(new Date());
+				    e.printStackTrace();  
+				}
+				
+				MainModel.getInstance().events.add(event);
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 		
 //		if(result.size() > 0) {
 //			GSMDataPreserver.getInstance().setCalendarItems(
@@ -41,22 +76,25 @@ public class GetEventsTask extends AsyncTask<Void, Void, ArrayList<String>> {
 	}
 
 	@Override
-	protected ArrayList<String> doInBackground(
+	protected JSONArray doInBackground(
 			Void... params) {
 
 		try {
 			
-			String a = mConn.getEventsList();
-			Log.d("DEBUG", "GET BACK DATA " + a);
+			//JSONArray response = mConn.getEventsList();
+			JSONObject response = mConn.getEventsList();
+			Log.d("DEBUG", "GET BACK DATA " + response);
+			
+			JSONArray array = response.getJSONArray("Events"); 
+			
+			return array;
 			
 			//GSMParser parser = new GSMParser(conn, context);
 			//parser.parseFromNet();
 			//return parser.getDatas().sortCompetitions();
 
 		} catch (Throwable e) {
-			//return new LinkedHashMap<Integer, ArrayList<Person>>();
+			return new JSONArray();
 		}
-		
-		return new ArrayList<String>();
 	}
 }

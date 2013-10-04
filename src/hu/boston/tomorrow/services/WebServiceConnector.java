@@ -1,5 +1,7 @@
 package hu.boston.tomorrow.services;
 
+import hu.boston.tomorrow.Constants;
+
 import java.io.IOException;
 
 import org.apache.http.HttpEntity;
@@ -12,6 +14,7 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,20 +61,24 @@ public class WebServiceConnector {
 		return response;
 	}
 
-	public String getEventsList() throws ClientProtocolException, IOException {
-		// TODO - Atirni
+	public JSONObject getEventsList() throws ClientProtocolException, IOException {
 		
-		String response = execute("http://192.168.2.6/Boston/Events/List"); 
+		String response = execute(Constants.WEB_SERVICE_URL + "Events/List"); 
+		
+		JSONObject json;
+		JSONArray jsonArray;
 		
 		try {
-			JSONObject json = new JSONObject(response);
+			json = new JSONObject(response);
+			//jsonArray = new JSONArray(response);
 			Log.d("DEBUG", "aaa");
 		} catch (JSONException e) {
 			e.printStackTrace();
+			return new JSONObject();
 		}
 		
 		
-		
-		return response;
+		return json;
+		//return jsonArray;
 	}
 }
