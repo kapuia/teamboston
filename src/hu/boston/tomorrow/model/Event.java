@@ -1,5 +1,6 @@
 package hu.boston.tomorrow.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Event {
@@ -9,6 +10,7 @@ public class Event {
 	private String description;
 	private Date startTime;
 	private Date endTime;
+	private ArrayList<EventContent> eventContentList;
 
 	public String getEventId() {
 		return eventId;
@@ -48,5 +50,13 @@ public class Event {
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+	
+	public ArrayList<EventContent> getEventContentList() {
+		return eventContentList;
+	}
+	
+	public void setEventContentList(ArrayList<EventContent> eventContentList) {
+		this.eventContentList = eventContentList;
 	}
 }

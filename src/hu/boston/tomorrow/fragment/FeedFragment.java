@@ -1,6 +1,8 @@
 package hu.boston.tomorrow.fragment;
 
+import hu.boston.tomorrow.Constants;
 import hu.boston.tomorrow.R;
+import hu.boston.tomorrow.task.GetEventContentsTask;
 import hu.boston.tomorrow.task.GetEventsTask;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,7 +20,9 @@ public class FeedFragment extends Fragment {
 
 		View v = inflater.inflate(R.layout.fragment_feed, container, false);
 
-		GetEventsTask gsm = new GetEventsTask(getActivity());
+		//GetEventsTask gsm = new GetEventsTask(getActivity());
+		
+		GetEventContentsTask gsm = new GetEventContentsTask(getActivity(), Constants.DUMMY_EVENT_ID);
 		
 		//TaskHandler.getInstance().add(gsm);
 		

@@ -23,4 +23,19 @@ public class MainModel {
 		}
 		return _instance;
 	}
+	
+	public Event getEventById(String eventId) {
+		
+		if(events.size() == 0) {
+			return null;
+		}
+		
+		for(Event event : events) {
+			if(event.getEventId().equals(eventId)) {
+				return event;
+			}
+		}
+		
+		return null;
+	}
 }
