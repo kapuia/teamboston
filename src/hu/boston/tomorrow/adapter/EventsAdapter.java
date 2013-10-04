@@ -20,13 +20,13 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 	private Context mContext;
 	private ArrayList<Event> mObjects;
 	private SimpleDateFormat mDateFormat;
-	
+
 	public EventsAdapter(Context context, ArrayList<Event> items) {
 		super(context, R.layout.menu_frame, items);
 
 		mContext = context;
 		mObjects = items;
-		
+
 		mDateFormat = new SimpleDateFormat("EEEE, MMMM, d");
 	}
 
@@ -48,6 +48,8 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 					.findViewById(R.id.date);
 			viewHolder.attendeesCount = (FontableTextView) convertView
 					.findViewById(R.id.attendes);
+			viewHolder.description = (FontableTextView) convertView
+					.findViewById(R.id.description);
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
 
 			convertView.setTag(viewHolder);
@@ -58,12 +60,11 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 
 		viewHolder.title.setText(mObjects.get(position).getTitle());
 		// viewHolder.place.setText(mObjects.get(position).get)
-		
-		
-		
-		
-		
-		viewHolder.date.setText(mDateFormat.format(mObjects.get(position).getStartTime()) + "\n"
+
+		viewHolder.description.setText(mObjects.get(position).getDescription());
+		viewHolder.date.setText(mDateFormat.format(mObjects.get(position)
+				.getStartTime())
+				+ "\n"
 				+ mDateFormat.format(mObjects.get(position).getEndTime()));
 
 		// Picasso.with(mContext).load(mObjects.get(position)).placeholder(null)
@@ -76,7 +77,9 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 		FontableTextView title;
 		FontableTextView place;
 		FontableTextView date;
+		FontableTextView date_ago;
 		FontableTextView attendeesCount;
+		FontableTextView description;
 		ImageView image;
 	}
 }

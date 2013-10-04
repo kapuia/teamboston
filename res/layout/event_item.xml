@@ -37,7 +37,7 @@
         android:src="@drawable/dummy_image" />
     
     <hu.boston.tomorrow.widget.FontableTextView
-        android:id="@+id/length"
+        android:id="@+id/date_ago"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_below="@+id/title"
@@ -54,7 +54,7 @@
         app:font="font-siri/SiriCore-Regular_RB.ttf" />
     
     <hu.boston.tomorrow.widget.FontableTextView
-        android:id="@+id/length"
+        android:id="@+id/attendes_count"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_below="@+id/title"
@@ -162,13 +162,13 @@
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:text="# of Attendees"
+            android:text="Description"
             android:textColor="#a4a4a4"
             android:textSize="14sp"
             app:font="Roboto-Light.ttf" />
 
         <hu.boston.tomorrow.widget.FontableTextView
-            android:id="@+id/start_date"
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/where"
