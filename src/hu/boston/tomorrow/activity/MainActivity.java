@@ -2,11 +2,14 @@ package hu.boston.tomorrow.activity;
 
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
+import hu.boston.tomorrow.events.EventsDownloadedEvent;
 import hu.boston.tomorrow.fragment.ContentFragment;
 import hu.boston.tomorrow.fragment.EventChooserFragment;
 import hu.boston.tomorrow.fragment.FeedFragment;
 import hu.boston.tomorrow.fragment.Profile_Fragment;
+import hu.boston.tomorrow.managers.EventBusManager;
 import hu.boston.tomorrow.model.MainModel;
+import hu.boston.tomorrow.task.GetEventsTask;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,6 +34,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 public class MainActivity extends ActionBarActivity {
 
 	private DrawerLayout mDrawerLayout;
@@ -44,12 +50,17 @@ public class MainActivity extends ActionBarActivity {
 	private int mCurrentPage;
 	private Fragment mCurrentFragment;
 
+	private EventBus eventBus;
+
 	public static int RESULT_CAMERA_IMAGE = 222;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		eventBus = EventBusManager.getInstance();
+		eventBus.register(this);
 
 		// Menu elemek hozzaadasa
 		mMenuTitles.add("Profile");
@@ -107,6 +118,14 @@ public class MainActivity extends ActionBarActivity {
 		} else {
 			setTitle(mMenuTitles.get(savedInstanceState.getInt("currentPage")));
 		}
+
+		GetEventsTask task = new GetEventsTask(this);
+		task.execute();
+
+	}
+
+	@Subscribe
+	public void eventsDownloaded(EventsDownloadedEvent event) {
 
 	}
 
@@ -208,51 +227,46 @@ public class MainActivity extends ActionBarActivity {
 				mDrawerLayout.openDrawer(mDrawerList);
 			}
 			return true;
-			
+
 		case R.id.action_refresh:
 			startCamera();
 			return true;
-			
-//		case R.id.action_settings:
-//			intent = new Intent(this, SettingsActivity.class);
-//			startActivity(intent);
-//			return true;
-//		case R.id.action_more_apps:
-//			intent = new Intent(this, OtherAppsActivity.class);
-//			startActivity(intent);
-//			return true;
+
+			// case R.id.action_settings:
+			// intent = new Intent(this, SettingsActivity.class);
+			// startActivity(intent);
+			// return true;
+			// case R.id.action_more_apps:
+			// intent = new Intent(this, OtherAppsActivity.class);
+			// startActivity(intent);
+			// return true;
 		}
 
 		return false;
 	}
-	
+
 	private void startCamera() {
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
 		try {
 			// place where to store camera taken picture
-			MainModel.getInstance().photo = this.createTemporaryFile("picture",
-					".jpg");
+			MainModel.getInstance().photo = this.createTemporaryFile("picture", ".jpg");
 			MainModel.getInstance().photo.delete();
 		} catch (Exception e) {
 			Log.d("DEBUG", "Can't create file to take picture!");
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
 		}
 		try {
-			MainModel.getInstance().imageUri = Uri.fromFile(MainModel
-					.getInstance().photo);
+			MainModel.getInstance().imageUri = Uri.fromFile(MainModel.getInstance().photo);
 
-			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-					MainModel.getInstance().imageUri);
+			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, MainModel.getInstance().imageUri);
 
 			startActivityForResult(takePictureIntent, RESULT_CAMERA_IMAGE);
 		} catch (Exception e) {
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	private File createTemporaryFile(String part, String ext) throws Exception {
 		File tempDir = Environment.getExternalStorageDirectory();
 		tempDir = new File(tempDir.getAbsolutePath() + "/.temp/");
