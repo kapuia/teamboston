@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.common.eventbus.EventBus;
 
@@ -34,6 +35,8 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 	@Override
 	protected void onPostExecute(JSONArray result) {
 
+		Log.d("DEBUG", "GET EVENTS POST EXECUTE");
+		
 		MainModel.getInstance().events = new ArrayList<Event>();
 
 		SimpleDateFormat format = MainModel.getInstance().format;
