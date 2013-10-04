@@ -2,6 +2,8 @@ package hu.boston.tomorrow.activity;
 
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
+import hu.boston.tomorrow.fragment.EventChooserFragment;
+import hu.boston.tomorrow.fragment.FeedFragment;
 import hu.boston.tomorrow.fragment.Profile_Fragment;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private int mCurrentPage;
 	private Fragment mCurrentFragment;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,11 +43,11 @@ public class MainActivity extends ActionBarActivity {
 
 		// Menu elemek hozzaadasa
 		mMenuTitles.add("Profile");
-//		mMenuTitles.add("Social Feed");
-//		mMenuTitles.add("Spotlight");
-//		mMenuTitles.add("Leaderboard");
-//		mMenuTitles.add("Profile");
-//		mMenuTitles.add("About");
+		mMenuTitles.add("Social Feed");
+		mMenuTitles.add("Spotlight");
+		// mMenuTitles.add("Leaderboard");
+		// mMenuTitles.add("Profile");
+		// mMenuTitles.add("About");
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_list);
@@ -53,13 +55,12 @@ public class MainActivity extends ActionBarActivity {
 		// set a custom shadow that overlays the main content when the
 		// drawer
 		// opens
-//		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-//				GravityCompat.START);
+		// mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+		// GravityCompat.START);
 		// set up the drawer's list view with items and click listener
 		// mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 		// R.layout.drawer_list_item, mMenuTitles));
-		DrawerAdapter adapter = new DrawerAdapter(getApplicationContext(),
-				mMenuTitles);
+		DrawerAdapter adapter = new DrawerAdapter(getApplicationContext(), mMenuTitles);
 		mDrawerList.setAdapter(adapter);
 
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -98,22 +99,20 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			selectItem(position);
 		}
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
-	
+
 	@Override
 	public void setTitle(CharSequence title) {
 		mTitle = title;
@@ -124,52 +123,57 @@ public class MainActivity extends ActionBarActivity {
 		mCurrentPage = position;
 
 		switch (position) {
-		
+
 		// "PROFILE"
 		case 0:
 			mCurrentFragment = new Profile_Fragment();
-			break;		
+			break;
+
+		case 1:
+			mCurrentFragment = new EventChooserFragment();
+			break;
+
+		case 2:
+			mCurrentFragment = new FeedFragment();
+			break;
 
 		default:
 			return;
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, mCurrentFragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, mCurrentFragment).commit();
 
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
 		setTitle(mMenuTitles.get(position));
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
-		
-		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
-				.findItem(R.id.action_search));
+
+		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
 
 		mSearchView.setQueryHint("Search");
 		mSearchView.setIconifiedByDefault(true);
-		
-//		mSearchView.setOnQueryTextListener(this);
-//		mSearchView
-//				.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
-//
-//					@Override
-//					public void onFocusChange(View v, boolean hasFocus) {
-//						if (!hasFocus) {
-//							mSearchView.setIconified(true);
-//						}
-//					}
-//				});
-		
+
+		// mSearchView.setOnQueryTextListener(this);
+		// mSearchView
+		// .setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+		//
+		// @Override
+		// public void onFocusChange(View v, boolean hasFocus) {
+		// if (!hasFocus) {
+		// mSearchView.setIconified(true);
+		// }
+		// }
+		// });
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// The action bar home/up action should open or close the drawer.
@@ -184,14 +188,14 @@ public class MainActivity extends ActionBarActivity {
 				mDrawerLayout.openDrawer(mDrawerList);
 			}
 			return true;
-//		case R.id.action_settings:
-//			intent = new Intent(this, SettingsActivity.class);
-//			startActivity(intent);
-//			return true;
-//		case R.id.action_more_apps:
-//			intent = new Intent(this, OtherAppsActivity.class);
-//			startActivity(intent);
-//			return true;
+			// case R.id.action_settings:
+			// intent = new Intent(this, SettingsActivity.class);
+			// startActivity(intent);
+			// return true;
+			// case R.id.action_more_apps:
+			// intent = new Intent(this, OtherAppsActivity.class);
+			// startActivity(intent);
+			// return true;
 		}
 
 		return false;
