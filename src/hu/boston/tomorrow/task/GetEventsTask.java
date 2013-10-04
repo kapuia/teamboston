@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 
@@ -41,7 +40,8 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 				event.setTitle(json.getString("Title"));
 				event.setDescription(json.getString("Description"));
 				
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");  
+				SimpleDateFormat format = MainModel.getInstance().format;
+				
 				try {  
 					event.setStartTime(format.parse(json.getString("StartTime")));  
 					event.setEndTime(format.parse(json.getString("EndTime")));  
@@ -58,14 +58,6 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 			}
 		}
 		
-//		if(result.size() > 0) {
-//			GSMDataPreserver.getInstance().setCalendarItems(
-//				GSMParser.getInstance().tmpCalendarItems);
-//			GSMDataPreserver.getInstance().setSortedData(result);
-//		}
-		
-		Log.d("DEBUG", "POST EXECUTE");
-		
 		super.onPostExecute(result);
 	}
 
@@ -80,18 +72,10 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 			Void... params) {
 
 		try {
-			
-			//JSONArray response = mConn.getEventsList();
 			JSONObject response = mConn.getEventsList();
-			Log.d("DEBUG", "GET BACK DATA " + response);
-			
 			JSONArray array = response.getJSONArray("Events"); 
 			
 			return array;
-			
-			//GSMParser parser = new GSMParser(conn, context);
-			//parser.parseFromNet();
-			//return parser.getDatas().sortCompetitions();
 
 		} catch (Throwable e) {
 			return new JSONArray();

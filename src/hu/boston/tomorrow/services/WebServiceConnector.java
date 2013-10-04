@@ -3,23 +3,26 @@ package hu.boston.tomorrow.services;
 import hu.boston.tomorrow.Constants;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.util.Log;
 
 public class WebServiceConnector {
 
@@ -30,14 +33,12 @@ public class WebServiceConnector {
 		this.context = context;
 	}
 
-	// TODO - userId-t atadni!
-	// private String execute(String url, List<NameValuePair> nameValuePairs)
-	private String execute(String url) throws ClientProtocolException,
-			IOException {
+	private String execute(String url, List<NameValuePair> nameValuePairs)
+			throws ClientProtocolException, IOException {
 		String response = "";
-		// String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
 
-		// url += paramString;
+		String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
+		url += paramString;
 
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpGet httpget = new HttpGet(url);
@@ -61,24 +62,24 @@ public class WebServiceConnector {
 		return response;
 	}
 
-	public JSONObject getEventsList() throws ClientProtocolException, IOException {
-		
-		String response = execute(Constants.WEB_SERVICE_URL + "Events/List"); 
-		
+	public JSONObject getEventsList() throws ClientProtocolException,
+			IOException {
+
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		nameValuePairs.add(new BasicNameValuePair("userId",
+				Constants.DUMMY_USER_ID));
+
+		String url = Constants.WEB_SERVICE_URL + "Events/List" + "?";
+
 		JSONObject json;
-		JSONArray jsonArray;
-		
+
 		try {
-			json = new JSONObject(response);
-			//jsonArray = new JSONArray(response);
-			Log.d("DEBUG", "aaa");
+			json = new JSONObject(execute(url, nameValuePairs));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return new JSONObject();
 		}
-		
-		
+
 		return json;
-		//return jsonArray;
 	}
 }
