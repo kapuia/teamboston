@@ -5,11 +5,16 @@ import hu.boston.tomorrow.adapter.DrawerAdapter;
 import hu.boston.tomorrow.fragment.EventChooserFragment;
 import hu.boston.tomorrow.fragment.FeedFragment;
 import hu.boston.tomorrow.fragment.Profile_Fragment;
+import hu.boston.tomorrow.model.MainModel;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,11 +22,13 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -36,6 +43,8 @@ public class MainActivity extends ActionBarActivity {
 	private int mCurrentPage;
 	private Fragment mCurrentFragment;
 
+	public static int RESULT_CAMERA_IMAGE = 222;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -188,16 +197,57 @@ public class MainActivity extends ActionBarActivity {
 				mDrawerLayout.openDrawer(mDrawerList);
 			}
 			return true;
-			// case R.id.action_settings:
-			// intent = new Intent(this, SettingsActivity.class);
-			// startActivity(intent);
-			// return true;
-			// case R.id.action_more_apps:
-			// intent = new Intent(this, OtherAppsActivity.class);
-			// startActivity(intent);
-			// return true;
+			
+		case R.id.action_refresh:
+			startCamera();
+			return true;
+			
+//		case R.id.action_settings:
+//			intent = new Intent(this, SettingsActivity.class);
+//			startActivity(intent);
+//			return true;
+//		case R.id.action_more_apps:
+//			intent = new Intent(this, OtherAppsActivity.class);
+//			startActivity(intent);
+//			return true;
 		}
 
 		return false;
+	}
+	
+	private void startCamera() {
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+		try {
+			// place where to store camera taken picture
+			MainModel.getInstance().photo = this.createTemporaryFile("picture",
+					".jpg");
+			MainModel.getInstance().photo.delete();
+		} catch (Exception e) {
+			Log.d("DEBUG", "Can't create file to take picture!");
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
+					Toast.LENGTH_SHORT).show();
+		}
+		try {
+			MainModel.getInstance().imageUri = Uri.fromFile(MainModel
+					.getInstance().photo);
+
+			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+					MainModel.getInstance().imageUri);
+
+			startActivityForResult(takePictureIntent, RESULT_CAMERA_IMAGE);
+		} catch (Exception e) {
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	private File createTemporaryFile(String part, String ext) throws Exception {
+		File tempDir = Environment.getExternalStorageDirectory();
+		tempDir = new File(tempDir.getAbsolutePath() + "/.temp/");
+		if (!tempDir.exists()) {
+			tempDir.mkdir();
+		}
+		return File.createTempFile(part, ext, tempDir);
 	}
 }
