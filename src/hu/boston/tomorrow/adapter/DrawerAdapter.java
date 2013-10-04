@@ -29,6 +29,8 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 		mIconsList.add(R.drawable.ic_launcher);
 		mIconsList.add(R.drawable.ic_launcher);
 		mIconsList.add(R.drawable.ic_launcher);
+		mIconsList.add(R.drawable.ic_launcher);
+		mIconsList.add(R.drawable.ic_launcher);
 		
 //		mIconsList.add(R.drawable.icon_social_feed);
 //		mIconsList.add(R.drawable.icon_social_feed);

@@ -2,6 +2,7 @@ package hu.boston.tomorrow.activity;
 
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
+import hu.boston.tomorrow.fragment.ContentFragment;
 import hu.boston.tomorrow.fragment.EventChooserFragment;
 import hu.boston.tomorrow.fragment.FeedFragment;
 import hu.boston.tomorrow.fragment.Profile_Fragment;
@@ -52,8 +53,10 @@ public class MainActivity extends ActionBarActivity {
 
 		// Menu elemek hozzaadasa
 		mMenuTitles.add("Profile");
+		mMenuTitles.add("Event chooser");
 		mMenuTitles.add("Social Feed");
-		mMenuTitles.add("Spotlight");
+		mMenuTitles.add("Content1");
+		mMenuTitles.add("Content2");
 		// mMenuTitles.add("Leaderboard");
 		// mMenuTitles.add("Profile");
 		// mMenuTitles.add("About");
@@ -144,6 +147,14 @@ public class MainActivity extends ActionBarActivity {
 
 		case 2:
 			mCurrentFragment = new FeedFragment();
+			break;
+
+		case 3:
+			mCurrentFragment = new ContentFragment();
+			break;
+
+		case 4:
+			mCurrentFragment = new ContentFragment();
 			break;
 
 		default:
