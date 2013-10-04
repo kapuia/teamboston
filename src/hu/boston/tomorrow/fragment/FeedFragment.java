@@ -23,11 +23,11 @@ public class FeedFragment extends Fragment {
 
 		View v = inflater.inflate(R.layout.fragment_feed, container, false);
 
-		//GetEventsTask gsm = new GetEventsTask(getActivity());
+		GetEventsTask gsm = new GetEventsTask(getActivity());
 		//GetEventContentsTask gsm = new GetEventContentsTask(getActivity(), Constants.DUMMY_EVENT_ID);
 		//GetMessagesTask gsm = new GetMessagesTask(getActivity(), Constants.DUMMY_EVENT_ID);
 		//SendMessageTask gsm = new SendMessageTask(getActivity(), Constants.DUMMY_EVENT_ID, "bla", "HI!");
-		GetUserProfileTask gsm = new GetUserProfileTask(getActivity(), Constants.DUMMY_USER_ID);
+		//GetUserProfileTask gsm = new GetUserProfileTask(getActivity(), Constants.DUMMY_USER_ID);
 		
 		//TaskHandler.getInstance().add(gsm);
 		
