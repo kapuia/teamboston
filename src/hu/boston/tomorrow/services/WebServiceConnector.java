@@ -164,8 +164,6 @@ public class WebServiceConnector {
 		return json;
 	}
 
-	// http://192.168.2.6/BostonDev/Events/SendMessage?eventId=8c65add0-6564-4430-98ec-62a8dfeffe5a&subject=hi&content=bla
-
 	public JSONObject sendMessage(String eventId, String subject,
 			String content) throws ClientProtocolException, IOException {
 
@@ -182,6 +180,26 @@ public class WebServiceConnector {
 
 		try {
 			json = new JSONObject(executePost(url, nameValuePairs));
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return new JSONObject();
+		}
+
+		return json;
+	}
+	
+	public JSONObject getUserProfile(String userId) 
+			throws ClientProtocolException, IOException {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		nameValuePairs.add(new BasicNameValuePair("userId",
+				Constants.DUMMY_USER_ID));
+
+		String url = Constants.WEB_SERVICE_URL + "Users/Profile" + "?";
+
+		JSONObject json;
+
+		try {
+			json = new JSONObject(execute(url, nameValuePairs));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return new JSONObject();

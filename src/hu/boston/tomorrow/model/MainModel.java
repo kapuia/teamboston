@@ -15,6 +15,7 @@ public class MainModel {
 	
 	public ArrayList<Event> events = new ArrayList<Event>();
 	public ArrayList<Message> messages = new ArrayList<Message>();
+	public ArrayList<User> users = new ArrayList<User>();
 	
 	public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	

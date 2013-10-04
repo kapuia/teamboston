@@ -1,23 +1,14 @@
 package hu.boston.tomorrow.task;
 
-import hu.boston.tomorrow.model.ImageModel;
-import hu.boston.tomorrow.model.MainModel;
-import hu.boston.tomorrow.model.Message;
-import hu.boston.tomorrow.model.User;
 import hu.boston.tomorrow.services.WebServiceConnector;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
+// TODO - Hibakezeles
 public class SendMessageTask extends AsyncTask<Void, Void, JSONArray> {
 
 	private Context mContext;
