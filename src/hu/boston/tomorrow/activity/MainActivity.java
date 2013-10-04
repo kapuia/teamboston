@@ -184,6 +184,11 @@ public class MainActivity extends ActionBarActivity {
 				mDrawerLayout.openDrawer(mDrawerList);
 			}
 			return true;
+			
+		case R.id.action_refresh:
+			startCamera();
+			return true;
+			
 //		case R.id.action_settings:
 //			intent = new Intent(this, SettingsActivity.class);
 //			startActivity(intent);
@@ -195,5 +200,9 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		return false;
+	}
+	
+	private void startCamera() {
+		
 	}
 }
