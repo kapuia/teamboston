@@ -12,6 +12,7 @@ public class Event {
 	private Date endTime;
 	private ArrayList<EventContent> eventContentList;
 
+	private ArrayList<Message> messages;
 	public String getEventId() {
 		return eventId;
 	}
@@ -58,5 +59,13 @@ public class Event {
 	
 	public void setEventContentList(ArrayList<EventContent> eventContentList) {
 		this.eventContentList = eventContentList;
+	}
+
+	public ArrayList<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(ArrayList<Message> messages) {
+		this.messages = messages;
 	}
 }

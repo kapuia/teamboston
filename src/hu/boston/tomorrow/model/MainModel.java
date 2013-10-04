@@ -13,6 +13,7 @@ public class MainModel {
 
 	public Uri imageUri;
 	public File photo = null;
+	public Event selectedEvent;
 	
 	public ArrayList<Event> events = new ArrayList<Event>();
 	public ArrayList<Message> messages = new ArrayList<Message>();

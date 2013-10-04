@@ -25,23 +25,22 @@ public class PhotoResultActivity extends ActionBarActivity {
 
 	private Context mContext;
 	private ImageView mPhotoPreview;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_result);
 
 		mContext = this;
-		
-		mPhotoPreview = (ImageView) findViewById(R.id.photo_preview); 
-		
+
+		mPhotoPreview = (ImageView) findViewById(R.id.photo_preview);
+
 		grabImage();
 	}
-	
+
 	public void grabImage() {
 		try {
-			this.getContentResolver().notifyChange(
-					MainModel.getInstance().imageUri, null);
+			this.getContentResolver().notifyChange(MainModel.getInstance().imageUri, null);
 		} catch (Exception e) {
 
 		}
@@ -56,16 +55,13 @@ public class PhotoResultActivity extends ActionBarActivity {
 			//
 			// mResizedBitmap = getResizedBitmap(mBitmap, 1000);
 
-			mPhotoPreview.setImageBitmap(decodeSampledBitmapFromUri(
-					MainModel.getInstance().imageUri, 1000, 1000));
+			mPhotoPreview.setImageBitmap(decodeSampledBitmapFromUri(MainModel.getInstance().imageUri, 1000, 1000));
 		} catch (Exception e) {
-			Toast.makeText(this, "Nem sikerült a kép betöltése!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Nem sikerült a kép betöltése!", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
-	private int calculateInSampleSize(BitmapFactory.Options options,
-			int reqWidth, int reqHeight) {
+
+	private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 		// Raw height and width of image
 		final int height = options.outHeight;
 		final int width = options.outWidth;
@@ -81,8 +77,7 @@ public class PhotoResultActivity extends ActionBarActivity {
 		return inSampleSize;
 	}
 
-	private Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth,
-			int reqHeight) {
+	private Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth, int reqHeight) {
 
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -90,11 +85,9 @@ public class PhotoResultActivity extends ActionBarActivity {
 		Rect rect = new Rect(0, 0, reqWidth, reqHeight);
 
 		try {
-			BitmapFactory.decodeStream(getContentResolver()
-					.openInputStream(uri), rect, options);
+			BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), rect, options);
 			// Calculate inSampleSize
-			options.inSampleSize = calculateInSampleSize(options, reqWidth,
-					reqHeight);
+			options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
 			// Decode bitmap with inSampleSize set
 			options.inJustDecodeBounds = false;
@@ -102,19 +95,14 @@ public class PhotoResultActivity extends ActionBarActivity {
 			// BitmapFactory.decodeStream(getContentResolver().openInputStream(uri),
 			// null, options);
 
-			Bitmap bm = BitmapFactory.decodeStream(getContentResolver()
-					.openInputStream(uri), null, options);
+			Bitmap bm = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
 
 			Matrix matrix = new Matrix();
 
 			try {
-				mContext.getContentResolver().notifyChange(
-						MainModel.getInstance().imageUri, null);
-				ExifInterface exif = new ExifInterface(
-						MainModel.getInstance().photo.getAbsolutePath());
-				int orientation = exif.getAttributeInt(
-						ExifInterface.TAG_ORIENTATION,
-						ExifInterface.ORIENTATION_NORMAL);
+				mContext.getContentResolver().notifyChange(MainModel.getInstance().imageUri, null);
+				ExifInterface exif = new ExifInterface(MainModel.getInstance().photo.getAbsolutePath());
+				int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
 				switch (orientation) {
 				case ExifInterface.ORIENTATION_ROTATE_270:
@@ -137,15 +125,13 @@ public class PhotoResultActivity extends ActionBarActivity {
 			}
 
 			// RECREATE THE NEW BITMAP
-			Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
-					bm.getHeight(), matrix, false);
+			Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
 
 			try {
 				ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 				resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
-				FileOutputStream fo = new FileOutputStream(
-						MainModel.getInstance().photo);
+				FileOutputStream fo = new FileOutputStream(MainModel.getInstance().photo);
 				fo.write(bytes.toByteArray());
 				fo.close();
 			} catch (FileNotFoundException e) {
@@ -153,9 +139,9 @@ public class PhotoResultActivity extends ActionBarActivity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			bm = null;
-			
+
 			return resizedBitmap;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

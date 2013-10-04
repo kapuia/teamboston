@@ -127,6 +127,7 @@ public class MainActivity extends ActionBarActivity {
 
 	@Subscribe
 	public void eventsDownloaded(EventsDownloadedEvent event) {
+		MainModel.getInstance().selectedEvent = MainModel.getInstance().events.get(0);
 		GetEventContentsTask task2 = new GetEventContentsTask(this, "8c65add0-6564-4430-98ec-62a8dfeffe5a");
 		task2.execute();
 	}
