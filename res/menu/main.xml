@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appsocial="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@drawable/icon_refresh_actionbar"
+        android:orderInCategory="100"
+        android:title="Refresh"
+        appsocial:showAsAction="always"/>
+    
+    <item
+        android:id="@+id/action_search"
+        appsocial:actionViewClass="android.support.v7.widget.SearchView"
+        android:icon="@drawable/icon_search_actionbar"
+        android:orderInCategory="101"
+        appsocial:showAsAction="always|collapseActionView"
+        android:title="Search"/>
+    
+    <!-- android:icon="@drawable/icon_search_actionbar" -->
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/action_settings"
+        android:orderInCategory="102"
+        android:showAsAction="ifRoom"
+        android:title="Settings"/>
+</menu>
