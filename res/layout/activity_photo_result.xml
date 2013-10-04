@@ -2,29 +2,59 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/hu.boston.tomorrow"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <ImageView
-        android:id="@+id/photo_preview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="8dp"
-        android:scaleType="fitCenter" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <hu.boston.tomorrow.widget.FontableTextView
-        android:id="@+id/data_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="8dp"
-        android:singleLine="true"
-        android:text="Comment"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:font="Roboto-Regular.ttf" />
+        <ImageView
+            android:id="@+id/photo_preview"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitCenter" />
+
+        <hu.boston.tomorrow.widget.FontableTextView
+            android:id="@+id/data_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:text="Comment"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:font="Roboto-Regular.ttf" />
+        
+        <hu.boston.tomorrow.widget.FontableEditText 
+                android:id="@+id/comment_text"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/textfield_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:singleLine="true"
+                android:hint="Név"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:font="Roboto-Regular.ttf"/>
+        
+        <ImageButton
+            android:id="@+id/send_button"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/orange_button_selector"/>
+    </LinearLayout>
 
 </ScrollView>

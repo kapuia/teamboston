@@ -15,6 +15,7 @@ public class EventChooserFragment extends Fragment {
 	private ListView mListView;
 	private EventsAdapter mAdapter;
 	
+	// TODO - Loading anim until the data is unavailable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

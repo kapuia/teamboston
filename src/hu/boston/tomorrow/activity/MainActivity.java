@@ -279,4 +279,14 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return File.createTempFile(part, ext, tempDir);
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == RESULT_CAMERA_IMAGE && resultCode != 0) {
+			Intent intent = new Intent(this, PhotoResultActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			startActivity(intent);
+		}
+	}
 }
