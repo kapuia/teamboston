@@ -5,6 +5,7 @@ import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.task.GetEventContentsTask;
 import hu.boston.tomorrow.task.GetEventsTask;
 import hu.boston.tomorrow.task.GetMessagesTask;
+import hu.boston.tomorrow.task.SendMessageTask;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +24,9 @@ public class FeedFragment extends Fragment {
 
 		//GetEventsTask gsm = new GetEventsTask(getActivity());
 		//GetEventContentsTask gsm = new GetEventContentsTask(getActivity(), Constants.DUMMY_EVENT_ID);
-		GetMessagesTask gsm = new GetMessagesTask(getActivity(), Constants.DUMMY_EVENT_ID);
+		//GetMessagesTask gsm = new GetMessagesTask(getActivity(), Constants.DUMMY_EVENT_ID);
+		
+		SendMessageTask gsm = new SendMessageTask(getActivity(), Constants.DUMMY_EVENT_ID, "bla", "HI!");
 		
 		//TaskHandler.getInstance().add(gsm);
 		

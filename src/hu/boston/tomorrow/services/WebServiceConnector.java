@@ -14,7 +14,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -62,6 +64,42 @@ public class WebServiceConnector {
 		return response;
 	}
 
+	// TODO - Image
+	private String executePost(String url, List<NameValuePair> nameValuePairs)
+			throws ClientProtocolException, IOException {
+
+		String response = "";
+
+		String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
+		url += paramString;
+
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(url);
+
+		List<NameValuePair> postNameValuePairs = new ArrayList<NameValuePair>(1);
+		// TODO - Image
+
+		httppost.setEntity(new UrlEncodedFormEntity(postNameValuePairs));
+
+		ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+			public String handleResponse(final HttpResponse response)
+					throws HttpResponseException, IOException {
+				StatusLine statusLine = response.getStatusLine();
+				if (statusLine.getStatusCode() >= 300) {
+					throw new HttpResponseException(statusLine.getStatusCode(),
+							statusLine.getReasonPhrase());
+				}
+
+				HttpEntity entity = response.getEntity();
+				return entity == null ? null : EntityUtils.toString(entity,
+						"UTF-8");
+			}
+		};
+
+		response = httpclient.execute(httppost, responseHandler);
+		return response;
+	}
+
 	public JSONObject getEventsList() throws ClientProtocolException,
 			IOException {
 
@@ -88,8 +126,7 @@ public class WebServiceConnector {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("userId",
 				Constants.DUMMY_USER_ID));
-		nameValuePairs.add(new BasicNameValuePair("eventId",
-				eventId));
+		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
 
 		String url = Constants.WEB_SERVICE_URL + "Events/Contents" + "?";
 
@@ -104,15 +141,14 @@ public class WebServiceConnector {
 
 		return json;
 	}
-	
-	public JSONObject getMessagesList(String eventId) 
-		throws ClientProtocolException, IOException {
-		
+
+	public JSONObject getMessagesList(String eventId)
+			throws ClientProtocolException, IOException {
+
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("userId",
 				Constants.DUMMY_USER_ID));
-		nameValuePairs.add(new BasicNameValuePair("eventId",
-				eventId));
+		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
 
 		String url = Constants.WEB_SERVICE_URL + "Events/Messages" + "?";
 
@@ -120,6 +156,32 @@ public class WebServiceConnector {
 
 		try {
 			json = new JSONObject(execute(url, nameValuePairs));
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return new JSONObject();
+		}
+
+		return json;
+	}
+
+	// http://192.168.2.6/BostonDev/Events/SendMessage?eventId=8c65add0-6564-4430-98ec-62a8dfeffe5a&subject=hi&content=bla
+
+	public JSONObject sendMessage(String eventId, String subject,
+			String content) throws ClientProtocolException, IOException {
+
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		nameValuePairs.add(new BasicNameValuePair("userId",
+				Constants.DUMMY_USER_ID));
+		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
+		nameValuePairs.add(new BasicNameValuePair("subject", subject));
+		nameValuePairs.add(new BasicNameValuePair("content", content));
+
+		String url = Constants.WEB_SERVICE_URL + "Events/SendMessage" + "?";
+
+		JSONObject json;
+
+		try {
+			json = new JSONObject(executePost(url, nameValuePairs));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return new JSONObject();
