@@ -8,6 +8,7 @@ import android.net.Uri;
 
 public class MainModel {
 
+	public EventContent selectedContent;
 	private static MainModel _instance;
 
 	public Uri imageUri;

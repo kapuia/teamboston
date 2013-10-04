@@ -1,22 +1,23 @@
 package hu.boston.tomorrow.model;
 
+import java.util.ArrayList;
+
 public class EventContent {
 
 	private String contentId;
 
 	private String title;
 
-	private String body;
+	private ArrayList<String> body;
 
 	private ImageModel image;
 
 	private int order;
 
 	private int contentType;
-	
-	public EventContent()
-	{
-		
+
+	public EventContent() {
+
 	}
 
 	public String getContentId() {
@@ -35,11 +36,11 @@ public class EventContent {
 		this.title = title;
 	}
 
-	public String getBody() {
+	public ArrayList<String> getBody() {
 		return body;
 	}
 
-	public void setBody(String body) {
+	public void setBody(ArrayList<String> body) {
 		this.body = body;
 	}
 
