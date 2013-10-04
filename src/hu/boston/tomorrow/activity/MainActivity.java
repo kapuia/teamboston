@@ -2,17 +2,14 @@ package hu.boston.tomorrow.activity;
 
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
+import hu.boston.tomorrow.fragment.EventChooserFragment;
+import hu.boston.tomorrow.fragment.FeedFragment;
 import hu.boston.tomorrow.fragment.Profile_Fragment;
-import hu.boston.tomorrow.model.MainModel;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,13 +17,11 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -40,9 +35,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private int mCurrentPage;
 	private Fragment mCurrentFragment;
-	
-	public static int RESULT_CAMERA_IMAGE = 222;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,11 +43,11 @@ public class MainActivity extends ActionBarActivity {
 
 		// Menu elemek hozzaadasa
 		mMenuTitles.add("Profile");
-//		mMenuTitles.add("Social Feed");
-//		mMenuTitles.add("Spotlight");
-//		mMenuTitles.add("Leaderboard");
-//		mMenuTitles.add("Profile");
-//		mMenuTitles.add("About");
+		mMenuTitles.add("Social Feed");
+		mMenuTitles.add("Spotlight");
+		// mMenuTitles.add("Leaderboard");
+		// mMenuTitles.add("Profile");
+		// mMenuTitles.add("About");
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_list);
@@ -62,13 +55,12 @@ public class MainActivity extends ActionBarActivity {
 		// set a custom shadow that overlays the main content when the
 		// drawer
 		// opens
-//		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-//				GravityCompat.START);
+		// mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+		// GravityCompat.START);
 		// set up the drawer's list view with items and click listener
 		// mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 		// R.layout.drawer_list_item, mMenuTitles));
-		DrawerAdapter adapter = new DrawerAdapter(getApplicationContext(),
-				mMenuTitles);
+		DrawerAdapter adapter = new DrawerAdapter(getApplicationContext(), mMenuTitles);
 		mDrawerList.setAdapter(adapter);
 
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -107,22 +99,20 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			selectItem(position);
 		}
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
-	
+
 	@Override
 	public void setTitle(CharSequence title) {
 		mTitle = title;
@@ -133,52 +123,57 @@ public class MainActivity extends ActionBarActivity {
 		mCurrentPage = position;
 
 		switch (position) {
-		
+
 		// "PROFILE"
 		case 0:
 			mCurrentFragment = new Profile_Fragment();
-			break;		
+			break;
+
+		case 1:
+			mCurrentFragment = new EventChooserFragment();
+			break;
+
+		case 2:
+			mCurrentFragment = new FeedFragment();
+			break;
 
 		default:
 			return;
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, mCurrentFragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, mCurrentFragment).commit();
 
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
 		setTitle(mMenuTitles.get(position));
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
-		
-		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
-				.findItem(R.id.action_search));
+
+		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
 
 		mSearchView.setQueryHint("Search");
 		mSearchView.setIconifiedByDefault(true);
-		
-//		mSearchView.setOnQueryTextListener(this);
-//		mSearchView
-//				.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
-//
-//					@Override
-//					public void onFocusChange(View v, boolean hasFocus) {
-//						if (!hasFocus) {
-//							mSearchView.setIconified(true);
-//						}
-//					}
-//				});
-		
+
+		// mSearchView.setOnQueryTextListener(this);
+		// mSearchView
+		// .setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+		//
+		// @Override
+		// public void onFocusChange(View v, boolean hasFocus) {
+		// if (!hasFocus) {
+		// mSearchView.setIconified(true);
+		// }
+		// }
+		// });
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// The action bar home/up action should open or close the drawer.
@@ -193,62 +188,16 @@ public class MainActivity extends ActionBarActivity {
 				mDrawerLayout.openDrawer(mDrawerList);
 			}
 			return true;
-			
-		case R.id.action_refresh:
-			//startCamera();
-			testWebserviceCall();
-			return true;
-			
-//		case R.id.action_settings:
-//			intent = new Intent(this, SettingsActivity.class);
-//			startActivity(intent);
-//			return true;
-//		case R.id.action_more_apps:
-//			intent = new Intent(this, OtherAppsActivity.class);
-//			startActivity(intent);
-//			return true;
+			// case R.id.action_settings:
+			// intent = new Intent(this, SettingsActivity.class);
+			// startActivity(intent);
+			// return true;
+			// case R.id.action_more_apps:
+			// intent = new Intent(this, OtherAppsActivity.class);
+			// startActivity(intent);
+			// return true;
 		}
 
 		return false;
-	}
-	
-	private void testWebserviceCall() {
-		
-	}
-	
-	private void startCamera() {
-		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-		try {
-			// place where to store camera taken picture
-			MainModel.getInstance().photo = this.createTemporaryFile("picture",
-					".jpg");
-			MainModel.getInstance().photo.delete();
-		} catch (Exception e) {
-			Log.d("DEBUG", "Can't create file to take picture!");
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
-					Toast.LENGTH_SHORT).show();
-		}
-		try {
-			MainModel.getInstance().imageUri = Uri.fromFile(MainModel
-					.getInstance().photo);
-
-			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-					MainModel.getInstance().imageUri);
-
-			startActivityForResult(takePictureIntent, RESULT_CAMERA_IMAGE);
-		} catch (Exception e) {
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
-					Toast.LENGTH_SHORT).show();
-		}
-	}
-	
-	private File createTemporaryFile(String part, String ext) throws Exception {
-		File tempDir = Environment.getExternalStorageDirectory();
-		tempDir = new File(tempDir.getAbsolutePath() + "/.temp/");
-		if (!tempDir.exists()) {
-			tempDir.mkdir();
-		}
-		return File.createTempFile(part, ext, tempDir);
 	}
 }
