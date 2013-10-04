@@ -14,6 +14,7 @@ public class MainModel {
 	public File photo = null;
 	
 	public ArrayList<Event> events = new ArrayList<Event>();
+	public ArrayList<Message> messages = new ArrayList<Message>();
 	
 	public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	

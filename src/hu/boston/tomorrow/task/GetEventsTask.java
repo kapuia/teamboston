@@ -31,6 +31,8 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 		
 		MainModel.getInstance().events = new ArrayList<Event>();
 		
+		SimpleDateFormat format = MainModel.getInstance().format;
+		
 		for(int i = 0; i < result.length(); i++) {
 			try {
 				JSONObject json = (JSONObject) result.get(i);
@@ -39,8 +41,6 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 				event.setEventId(json.getString("EventId"));
 				event.setTitle(json.getString("Title"));
 				event.setDescription(json.getString("Description"));
-				
-				SimpleDateFormat format = MainModel.getInstance().format;
 				
 				try {  
 					event.setStartTime(format.parse(json.getString("StartTime")));  

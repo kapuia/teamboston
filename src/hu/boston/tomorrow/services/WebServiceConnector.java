@@ -104,4 +104,27 @@ public class WebServiceConnector {
 
 		return json;
 	}
+	
+	public JSONObject getMessagesList(String eventId) 
+		throws ClientProtocolException, IOException {
+		
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		nameValuePairs.add(new BasicNameValuePair("userId",
+				Constants.DUMMY_USER_ID));
+		nameValuePairs.add(new BasicNameValuePair("eventId",
+				eventId));
+
+		String url = Constants.WEB_SERVICE_URL + "Events/Messages" + "?";
+
+		JSONObject json;
+
+		try {
+			json = new JSONObject(execute(url, nameValuePairs));
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return new JSONObject();
+		}
+
+		return json;
+	}
 }
