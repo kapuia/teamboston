@@ -1,19 +1,23 @@
 package hu.boston.tomorrow.adapter;
 
 import hu.boston.tomorrow.R;
-import hu.boston.tomorrow.model.Event;
+import hu.boston.tomorrow.model.EventContent;
 import hu.boston.tomorrow.widget.FontableTextView;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.net.Uri;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-public class ContentAdapter  extends ArrayAdapter<String> {
+public class ContentAdapter extends ArrayAdapter<String> {
 
 	private Context mContext;
 	private ArrayList<String> mObjects;
@@ -27,24 +31,26 @@ public class ContentAdapter  extends ArrayAdapter<String> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		EventItemViewHolder viewHolder = null;
+		ContentItemViewHolder viewHolder = null;
+
+		String content = mObjects.get(position);
 
 		if (convertView == null) {
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.content_item, parent, false);
+			viewHolder = new ContentItemViewHolder();
+			viewHolder.content = (FontableTextView) convertView.findViewById(R.id.content);
+			viewHolder.image = (ImageView) convertView.findViewById(R.id.imageView);
+			if (content.startsWith("http://")) {
+				viewHolder.image.setImageURI(Uri.parse(content));
 
-//			convertView = LayoutInflater.from(getContext()).inflate(
-//					R.layout.event_item, parent, false);
-//
-//			viewHolder = new EventItemViewHolder();
-//			viewHolder.title = (FontableTextView) convertView
-//					.findViewById(R.id.title);
-//
-//			convertView.setTag(viewHolder);
+			} else {
+				Spanned html = Html.fromHtml(content);
+				viewHolder.content.setText(html);
+			}
 
 		} else {
-			viewHolder = (EventItemViewHolder) convertView.getTag();
+			viewHolder = (ContentItemViewHolder) convertView.getTag();
 		}
-
-	//	viewHolder.title.setText(mObjects.get(position).getTitle());
 
 		// Picasso.with(mContext).load(mObjects.get(position)).placeholder(null)
 		// .into(viewHolder.dummyItem);
@@ -52,12 +58,8 @@ public class ContentAdapter  extends ArrayAdapter<String> {
 		return convertView;
 	}
 
-	static class EventItemViewHolder {
-		FontableTextView title;
-		FontableTextView place;
-		FontableTextView startDate;
-		FontableTextView endDate;
-		FontableTextView attendeesCount;
+	static class ContentItemViewHolder {
+		FontableTextView content;
 		ImageView image;
 	}
 }

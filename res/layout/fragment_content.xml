@@ -11,10 +11,15 @@
         android:text="custom content" >
     </TextView>
 
-    <ListView
-        android:id="@+id/listView"
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="match_parent" />
+
+    <!-- <ListView -->
+    <!-- android:id="@+id/listView" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="match_parent" > -->
+    <!-- </ListView> -->
 
 </LinearLayout>
