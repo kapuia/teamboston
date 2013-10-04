@@ -9,6 +9,7 @@ import hu.boston.tomorrow.fragment.FeedFragment;
 import hu.boston.tomorrow.fragment.Profile_Fragment;
 import hu.boston.tomorrow.managers.EventBusManager;
 import hu.boston.tomorrow.model.MainModel;
+import hu.boston.tomorrow.task.GetEventContentsTask;
 import hu.boston.tomorrow.task.GetEventsTask;
 
 import java.io.File;
@@ -126,7 +127,8 @@ public class MainActivity extends ActionBarActivity {
 
 	@Subscribe
 	public void eventsDownloaded(EventsDownloadedEvent event) {
-
+		GetEventContentsTask task2 = new GetEventContentsTask(this, "8c65add0-6564-4430-98ec-62a8dfeffe5a");
+		task2.execute();
 	}
 
 	/* The click listner for ListView in the navigation drawer */
@@ -169,10 +171,12 @@ public class MainActivity extends ActionBarActivity {
 			break;
 
 		case 3:
+			MainModel.getInstance().selectedContent = MainModel.getInstance().events.get(0).getEventContentList().get(0);
 			mCurrentFragment = new ContentFragment();
 			break;
 
 		case 4:
+			MainModel.getInstance().selectedContent = MainModel.getInstance().events.get(0).getEventContentList().get(1);
 			mCurrentFragment = new ContentFragment();
 			break;
 

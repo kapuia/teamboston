@@ -19,43 +19,52 @@ public class GetEventContentsTask extends AsyncTask<Void, Void, JSONArray> {
 	private Context mContext;
 	private WebServiceConnector mConn;
 	private String mEventId;
-	
+
 	public GetEventContentsTask(Context context, String eventId) {
 		mContext = context;
 		mEventId = eventId;
 	}
-	
+
 	@Override
-	protected void onPostExecute(
-			JSONArray result) {
-		
+	protected void onPostExecute(JSONArray result) {
+
 		Event event = MainModel.getInstance().getEventById(mEventId);
-		
-		if(event == null) {
+
+		if (event == null) {
 			return;
 		}
-		
+
 		ArrayList<EventContent> contents = new ArrayList<EventContent>();
-		
-		for(int i = 0; i < result.length(); i++) {
+
+		for (int i = 0; i < result.length(); i++) {
 			try {
 				JSONObject json = (JSONObject) result.get(i);
-				
+
 				EventContent content = new EventContent();
 				content.setContentId(json.getString("ContentId"));
 				content.setTitle(json.getString("Title"));
-				content.setBody(json.getString("Body"));
+				
+				JSONArray bodyArray = json.getJSONArray("Body");
+				ArrayList<String> bodyList =new ArrayList<String>();
+				
+				for (int j = 0; j < bodyArray.length(); j++) {
+
+					 String s = bodyArray.get(j).toString();
+					 bodyList.add(s);
+				}
+
+				content.setBody(bodyList);
 				content.setOrder(json.getInt("Order"));
 				content.setContentType(json.getInt("ContentType"));
-				
+
 				contents.add(content);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		event.setEventContentList(contents);
-		
+
 		super.onPostExecute(result);
 	}
 
@@ -66,13 +75,12 @@ public class GetEventContentsTask extends AsyncTask<Void, Void, JSONArray> {
 	}
 
 	@Override
-	protected JSONArray doInBackground(
-			Void... params) {
+	protected JSONArray doInBackground(Void... params) {
 
 		try {
 			JSONObject response = mConn.getEventContents(mEventId);
-			JSONArray array = response.getJSONArray("Contents"); 
-			
+			JSONArray array = response.getJSONArray("Contents");
+
 			return array;
 
 		} catch (Throwable e) {
