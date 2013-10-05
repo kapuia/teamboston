@@ -1,6 +1,7 @@
 package hu.boston.tomorrow.adapter;
 
 import hu.boston.tomorrow.R;
+import hu.boston.tomorrow.model.MainModel;
 import hu.boston.tomorrow.model.Message;
 import hu.boston.tomorrow.widget.FontableTextView;
 import hu.boston.tomorrow.widget.RoundedImageTransformation;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +55,7 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
 			viewHolder.fader = (ImageView) convertView.findViewById(R.id.fader);
 			viewHolder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
-
+			viewHolder.root = (RelativeLayout) convertView.findViewById(R.id.rootlayout);
 			convertView.setTag(viewHolder);
 
 		} else {
@@ -73,6 +75,10 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			Picasso.with(mContext).load(mObjects.get(position).getImage().getUrl()).placeholder(null).into(viewHolder.image);
 		}
 
+		viewHolder.root.setBackground(mContext.getResources().getDrawable(R.drawable.card_bg_blue));
+		viewHolder.description.setTextColor(mContext.getResources().getColor(R.color.white));
+		viewHolder.author.setTextColor((mContext.getResources().getColor(R.color.white)));
+
 		// TODO - beegetve Akos
 		Picasso.with(mContext).load(R.drawable.icon_akos).noFade().placeholder(null).transform(iconTransformation).into(viewHolder.avatar);
 
@@ -87,5 +93,6 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 		ImageView image;
 		ImageView fader;
 		ImageView avatar;
+		RelativeLayout root;
 	}
 }

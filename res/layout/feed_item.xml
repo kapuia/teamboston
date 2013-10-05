@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/hu.boston.tomorrow"
+    android:id="@+id/rootlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/card_bg2" >
@@ -10,13 +11,13 @@
     <!-- android:layout_height="fill_parent" -->
     <!-- android:scaleType="fitXY" /> -->
 
-	<RelativeLayout
+    <RelativeLayout
         android:id="@+id/author_icon_component"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" >
+        android:layout_marginTop="8dp" >
 
         <ImageView
             android:id="@+id/avatar"
@@ -36,8 +37,8 @@
         android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/author_icon_component"
         android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/author_icon_component"
         android:gravity="center_vertical"
         android:paddingBottom="16dp"
         android:paddingTop="18dp"

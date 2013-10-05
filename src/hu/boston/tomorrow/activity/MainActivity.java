@@ -151,7 +151,6 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		for (EventContent eventContent : MainModel.getInstance().selectedEvent.getEventContentList()) {
-
 			mMenuTitles.add(eventContent.getTitle());
 		}
 
