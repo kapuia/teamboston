@@ -16,8 +16,8 @@
         android:singleLine="true"
         android:text="Hackathon 2013"
         android:textColor="#000000"
-        android:textSize="18sp"
-        app:font="Roboto-Light.ttf" />
+        android:textSize="20sp"
+        app:font="Roboto-Bold.ttf" />
 
     <ImageView
         android:id="@+id/image"
@@ -39,7 +39,7 @@
         android:paddingLeft="4.5dp"
         android:paddingRight="4.5dp"
         android:paddingTop="2dp"
-        android:text="5 days ago"
+        android:text="Right now"
         android:textColor="@android:color/white"
         android:textSize="13sp"
         app:font="font-siri/SiriCore-Regular_RB.ttf" />
@@ -164,6 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/where"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
