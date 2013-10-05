@@ -78,12 +78,16 @@ public class GetMessagesTask extends AsyncTask<Void, Void, JSONArray> {
 
 				// Sender
 				sender = new User();
-				JSONObject senderObject = json.getJSONObject("Sender");
-				sender.setUserId(senderObject.getString("UserId"));
-				sender.setUserName(senderObject.getString("Username"));
-				sender.setDisplayName(senderObject.getString("DisplayName"));
+				try {
+					JSONObject senderObject = json.getJSONObject("Sender");
+					sender.setUserId(senderObject.getString("UserId"));
+					sender.setUserName(senderObject.getString("Username"));
+					sender.setDisplayName(senderObject.getString("DisplayName"));
+					message.setSender(sender);
+				} catch (JSONException e) {
 
-				message.setSender(sender);
+				}
+			
 				messages.add(message);
 
 			} catch (JSONException e) {

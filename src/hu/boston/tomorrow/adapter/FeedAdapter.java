@@ -1,7 +1,6 @@
 package hu.boston.tomorrow.adapter;
 
 import hu.boston.tomorrow.R;
-import hu.boston.tomorrow.model.Event;
 import hu.boston.tomorrow.model.Message;
 import hu.boston.tomorrow.widget.FontableTextView;
 
@@ -9,13 +8,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 public class FeedAdapter extends ArrayAdapter<Message> {
 
@@ -39,10 +38,12 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 		Message message = mObjects.get(position);
 		if (convertView == null) {
 
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.feed_item, parent, false);
+			convertView = LayoutInflater.from(getContext()).inflate(
+					R.layout.feed_item, parent, false);
 
 			viewHolder = new EventItemViewHolder();
-			viewHolder.title = (FontableTextView) convertView.findViewById(R.id.title);
+			viewHolder.title = (FontableTextView) convertView
+					.findViewById(R.id.title);
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
 			viewHolder.fader = (ImageView) convertView.findViewById(R.id.fader);
 
@@ -73,8 +74,8 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 		// + "\n"
 		// + mDateFormat.format(mObjects.get(position).getEndTime()));
 
-		// Picasso.with(mContext).load(mObjects.get(position)).placeholder(null)
-		// .into(viewHolder.dummyItem);
+		Picasso.with(mContext).load(mObjects.get(position).getImage().getUrl())
+				.placeholder(null).into(viewHolder.image);
 
 		return convertView;
 	}

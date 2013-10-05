@@ -6,6 +6,9 @@
     <declare-styleable name="hu.boston.tomorrow.widget.FontableTextView">
         <attr name="font" />
     </declare-styleable>
+    <declare-styleable name="hu.boston.tomorrow.widget.FontableEditText">
+        <attr name="font" />
+    </declare-styleable>
     <declare-styleable name="AspectRatioImageView">
         <attr name="aspectRatio" format="float" />
         <attr name="aspectRatioEnabled" format="boolean" />
