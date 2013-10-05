@@ -17,38 +17,22 @@
  */
 package hu.boston.tomorrow.activity;
 
-import hu.boston.tomorrow.Constants;
 import hu.boston.tomorrow.R;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import ru.truba.touchgallery.GalleryWidget.BasePagerAdapter.OnItemChangeListener;
-import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
-import ru.truba.touchgallery.GalleryWidget.UrlPagerAdapter;
+import com.squareup.picasso.Picasso;
+
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
-import android.media.MediaScannerConnection.MediaScannerConnectionClient;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ImagePagerActivity extends ActionBarActivity {
-
-	private GalleryViewPager mViewPager;
-	private UrlPagerAdapter mPagerAdapter;
-	private ArrayList<String> allUrl = new ArrayList<String>();
 
 	private String imageDescription = "";
 
@@ -67,75 +51,22 @@ public class ImagePagerActivity extends ActionBarActivity {
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		Bundle bundle = getIntent().getExtras();
-		String clickedItem = bundle.getString("clickedItem");
-		final int place = bundle.getInt("place");
+		
 
-		allUrl.add(bundle.getString("image"));
+		String url = bundle.getString("image");
 		imageDescription = bundle.getString("description");
 
-		description = (TextView) findViewById(R.id.description);
-
-		UrlPagerAdapter pagerAdapter = new UrlPagerAdapter(this, allUrl);
+		ImageView image = (ImageView) findViewById(R.id.image);
 		
-//		pagerAdapter.setOnItemChangeListener(new OnItemChangeListener() {
-//
-//			@Override
-//			public void onItemChange(int currentPosition) {
-//
-//				switch (place) {
-//				case Constants.IMAGE_TYPE_SPYSTREAM:
-//					if (ImageStreamDataPreserver.getInstance()
-//							.getDescriptionsForFeedList().size() > currentPosition) {
-//						description.setText(ImageStreamDataPreserver
-//								.getInstance().getDescriptionsForFeedList()
-//								.get(currentPosition));
-//					}
-//					break;
-//
-//				case Constants.IMAGE_TYPE_SELECTED_BEHIND_THE_STREAM:
-//					if (ImageStreamDataPreserver.getInstance()
-//							.getDescriptionsForBehindList().size() > currentPosition) {
-//						description.setText(ImageStreamDataPreserver
-//								.getInstance().getDescriptionsForBehindList()
-//								.get(currentPosition));
-//					}
-//					break;
-//
-//				case Constants.IMAGE_TYPE_RECENT_CHALLENGES:
-//					description.setText(imageDescription);
-//					break;
-//
-//				case Constants.IMAGE_TYPE_OTHER_APPS:
-//					description.setText(imageDescription);
-//					break;
-//
-//				case Constants.IMAGE_TYPE_RED_BULL_FEED_LIST:
-//					if (ImageStreamDataPreserver.getInstance()
-//							.getDescriptionsForRedBullFeedList().size() > currentPosition) {
-//						description.setText(ImageStreamDataPreserver
-//								.getInstance()
-//								.getDescriptionsForRedBullFeedList()
-//								.get(currentPosition));
-//					}
-//				default:
-//					break;
-//				}
-//
-//				if (mShareIntent != null) {
-//					getShareContent(allUrl.get(currentPosition), description
-//							.getText().toString());
-//				}
-//			}
-//		});
-
-		mViewPager = (GalleryViewPager) findViewById(R.id.viewer);
-		mViewPager.setAdapter(pagerAdapter);
-		if (clickedItem != null) {
-			mViewPager.setCurrentItem(allUrl.indexOf(clickedItem));
-		}
-		mViewPager.setDescriptionText(description);
+		Picasso.with(this).load(url).into(image);
+		
+		description = (TextView) findViewById(R.id.description);
+		description.setText(imageDescription);
+		
 	}
 
+	
+	
 //	@Override
 //	public boolean onCreateOptionsMenu(Menu menu) {
 //		getMenuInflater().inflate(R.menu.menu_with_share, menu);
@@ -170,14 +101,14 @@ public class ImagePagerActivity extends ActionBarActivity {
 //		}.execute();
 //	}
 //
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
 //		Intent intent;
-//
-//		switch (item.getItemId()) {
-//		case android.R.id.home:
-//			onBackPressed();
-//			break;
+
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			break;
 //		case R.id.action_settings:
 //			intent = new Intent(this, SettingsActivity.class);
 //			startActivity(intent);
@@ -190,9 +121,9 @@ public class ImagePagerActivity extends ActionBarActivity {
 //			Bitmap bitmap = mViewPager.currentView.getDrawingCache();
 //			savePhoto(bitmap);
 //			break;
-//		}
-//		return super.onOptionsItemSelected(item);
-//	}
+		}
+		return super.onOptionsItemSelected(item);
+	}
 //
 //	public void savePhoto(Bitmap bmp) {
 //		try {

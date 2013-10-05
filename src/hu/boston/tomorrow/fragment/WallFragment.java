@@ -56,23 +56,23 @@ public class WallFragment extends Fragment {
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int position,
-					long id) {
-				
-				Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+			public void onItemClick(AdapterView<?> arg0, View view,
+					int position, long id) {
+
+				Intent intent = new Intent(getActivity(),
+						ImagePagerActivity.class);
 				Bundle value = new Bundle();
-				
-				
-				Message message = MainModel.getInstance().selectedEvent.getMessages().get(position);
+
+				Message message = MainModel.getInstance().selectedEvent
+						.getMessages().get(position);
 				value.putString("image", message.getImage().getUrl());
-				value.putString("description",
-						message.getContent());
+				value.putString("description", message.getContent());
 				intent.putExtras(value);
 				getActivity().startActivity(intent);
-				
+
 			}
 		});
-		
+
 		customHandler.postDelayed(updateTimerThread, 3000);
 
 		return v;
@@ -81,9 +81,9 @@ public class WallFragment extends Fragment {
 
 	private Runnable updateTimerThread = new Runnable() {
 		public void run() {
-			
+
 			Log.d("DEBUG", "START ASYNC");
-			
+
 			// TODO - Figyelni, hogy lefutott-e az elozo
 			GetMessagesTask gsm = new GetMessagesTask(getActivity(),
 					MainModel.getInstance().selectedEvent.getEventId());
@@ -92,7 +92,7 @@ public class WallFragment extends Fragment {
 			} else {
 				gsm.execute();
 			}
-			
+
 			customHandler.postDelayed(this, 3000);
 
 		}
@@ -101,23 +101,27 @@ public class WallFragment extends Fragment {
 
 	@Subscribe
 	public void wallUpdted(MessagesDownloadedEvent event) {
-		Log.d("DEBUG", "RESULT!!! " + MainModel.getInstance().selectedEvent.getMessages().size());
-		
+		Log.d("DEBUG", "RESULT!!! "
+				+ MainModel.getInstance().selectedEvent.getMessages().size());
+
 		if (mAdapter == null) {
 			mAdapter = new FeedAdapter(getActivity(),
 					MainModel.getInstance().selectedEvent.getMessages());
 			mListView.setAdapter(mAdapter);
 		} else {
-			mAdapter.setObjects(MainModel.getInstance().selectedEvent.getMessages());
+			mAdapter.setObjects(MainModel.getInstance().selectedEvent
+					.getMessages());
 			mAdapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	@Override
 	public void onPause() {
-		customHandler.removeCallbacks(updateTimerThread);
-		customHandler = null;
-		eventBus.unregister(this);
+		if (customHandler != null) {
+			customHandler.removeCallbacks(updateTimerThread);
+			customHandler = null;
+			eventBus.unregister(this);
+		}
 		super.onPause();
 	}
 }
