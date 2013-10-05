@@ -47,6 +47,8 @@ public class MainActivity extends ActionBarActivity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 
+	private DrawerAdapter adapter;
+	
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private ArrayList<String> mMenuTitles = new ArrayList<String>();
@@ -67,14 +69,13 @@ public class MainActivity extends ActionBarActivity {
 		eventBus.register(this);
 
 		// Menu elemek hozzaadasa
+		mMenuTitles.add("All Events");
 		mMenuTitles.add("Profile");
-		mMenuTitles.add("Event chooser");
-		mMenuTitles.add("Social Feed");
-		mMenuTitles.add("Content1");
-		mMenuTitles.add("Content2");
-		// mMenuTitles.add("Leaderboard");
-		// mMenuTitles.add("Profile");
-		// mMenuTitles.add("About");
+		mMenuTitles.add("Current Event");
+		mMenuTitles.add("Wall");
+		mMenuTitles.add("Schedule");
+		mMenuTitles.add("Speakers");
+		mMenuTitles.add("Attendees");
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_list);
@@ -87,7 +88,7 @@ public class MainActivity extends ActionBarActivity {
 		// set up the drawer's list view with items and click listener
 		// mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 		// R.layout.drawer_list_item, mMenuTitles));
-		DrawerAdapter adapter = new DrawerAdapter(getApplicationContext(),
+		adapter = new DrawerAdapter(getApplicationContext(),
 				mMenuTitles);
 		mDrawerList.setAdapter(adapter);
 
@@ -139,6 +140,8 @@ public class MainActivity extends ActionBarActivity {
 		GetEventContentsTask task2 = new GetEventContentsTask(this,
 				"8c65add0-6564-4430-98ec-62a8dfeffe5a");
 		task2.execute();
+		
+		adapter.notifyDataSetChanged();
 	}
 
 	/* The click listner for ListView in the navigation drawer */
@@ -169,29 +172,35 @@ public class MainActivity extends ActionBarActivity {
 
 		switch (position) {
 
-		// "PROFILE"
+		// "ALL EVENTS"
 		case 0:
-			mCurrentFragment = new Profile_Fragment();
-			break;
-
-		case 1:
 			mCurrentFragment = new EventChooserFragment();
 			break;
 
+		// "PROFILE"
+		case 1:
+			mCurrentFragment = new Profile_Fragment();
+			break;
+
+		// "CURRENT EVENT"
 		case 2:
 			mCurrentFragment = new FeedFragment();
 			break;
 
+		// "WALL"
 		case 3:
-			MainModel.getInstance().selectedContent = MainModel.getInstance().events
-					.get(0).getEventContentList().get(0);
-			mCurrentFragment = new ContentFragment();
+			mCurrentFragment = new FeedFragment();
+			
+//			MainModel.getInstance().selectedContent = MainModel.getInstance().events
+//					.get(0).getEventContentList().get(0);
+//			mCurrentFragment = new ContentFragment();
 			break;
 
+		
 		case 4:
-			MainModel.getInstance().selectedContent = MainModel.getInstance().events
-					.get(0).getEventContentList().get(1);
-			mCurrentFragment = new ContentFragment();
+//			MainModel.getInstance().selectedContent = MainModel.getInstance().events
+//					.get(0).getEventContentList().get(1);
+//			mCurrentFragment = new ContentFragment();
 			break;
 
 		default:
