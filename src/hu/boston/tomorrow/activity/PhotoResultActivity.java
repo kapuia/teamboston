@@ -304,13 +304,13 @@ public class PhotoResultActivity extends ActionBarActivity {
 				// }
 			} catch (ParseException e) {
 				mIsSended = false;
-				Toast.makeText(getApplicationContext(), "Sikertelen feltöltés kérem próbálkozzon újból!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Can't upload your image please try again!", Toast.LENGTH_SHORT).show();
 			} catch (IOException e) {
 				mIsSended = false;
-				Toast.makeText(getApplicationContext(), "Sikertelen feltöltés kérem próbálkozzon újból!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Can't upload your image please try again!", Toast.LENGTH_SHORT).show();
 			} catch (Exception e) {
 				mIsSended = false;
-				Toast.makeText(getApplicationContext(), "Sikertelen feltöltés kérem próbálkozzon újból!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Can't upload your image please try again!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
