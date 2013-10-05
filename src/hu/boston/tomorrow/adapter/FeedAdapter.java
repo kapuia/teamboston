@@ -3,6 +3,7 @@ package hu.boston.tomorrow.adapter;
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.model.Message;
 import hu.boston.tomorrow.widget.FontableTextView;
+import hu.boston.tomorrow.widget.RoundedImageTransformation;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 	private ArrayList<Message> mObjects;
 	private SimpleDateFormat mDateFormat;
 
+	private RoundedImageTransformation iconTransformation = new RoundedImageTransformation();
+
 	public FeedAdapter(Context context, ArrayList<Message> items) {
 		super(context, R.layout.menu_frame, items);
 
@@ -30,7 +33,7 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 
 		mDateFormat = new SimpleDateFormat("EEEE, MMMM, d");
 	}
-	
+
 	public void setObjects(ArrayList<Message> items) {
 		mObjects = items;
 	}
@@ -46,19 +49,14 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 					R.layout.feed_item, parent, false);
 
 			viewHolder = new EventItemViewHolder();
-			viewHolder.title = (FontableTextView) convertView
-					.findViewById(R.id.title);
+			viewHolder.author = (FontableTextView) convertView
+					.findViewById(R.id.author);
+			viewHolder.description = (FontableTextView) convertView
+					.findViewById(R.id.description);
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
 			viewHolder.fader = (ImageView) convertView.findViewById(R.id.fader);
-
-			// viewHolder.place = (FontableTextView)
-			// convertView.findViewById(R.id.place);
-			// viewHolder.date = (FontableTextView)
-			// convertView.findViewById(R.id.date);
-			// viewHolder.attendeesCount = (FontableTextView)
-			// convertView.findViewById(R.id.attendes);
-			// viewHolder.image = (ImageView)
-			// convertView.findViewById(R.id.image);
+			viewHolder.avatar = (ImageView) convertView
+					.findViewById(R.id.avatar);
 
 			convertView.setTag(viewHolder);
 
@@ -66,30 +64,35 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			viewHolder = (EventItemViewHolder) convertView.getTag();
 		}
 
-		viewHolder.title.setText(message.getContent());
+		viewHolder.author.setText(message.getSender().getUserName());
+		
 		if (message.getImage() == null || message.getImage().getUrl() == null) {
 			viewHolder.image.setVisibility(View.GONE);
 			viewHolder.fader.setVisibility(View.GONE);
+		} else {
+			viewHolder.image.setVisibility(View.VISIBLE);
+			viewHolder.fader.setVisibility(View.VISIBLE);
+
+			Picasso.with(mContext)
+					.load(mObjects.get(position).getImage().getUrl())
+					.placeholder(null).into(viewHolder.image);
 		}
 
-		// viewHolder.place.setText(mObjects.get(position).get)
+		// TODO - beegetve Akos
+		Picasso.with(mContext).load(R.drawable.icon_akos).noFade()
+				.placeholder(null).transform(iconTransformation)
+				.into(viewHolder.avatar);
 
-		// viewHolder.date.setText(mDateFormat.format(mObjects.get(position).getStartTime())
-		// + "\n"
-		// + mDateFormat.format(mObjects.get(position).getEndTime()));
-
-		Picasso.with(mContext).load(mObjects.get(position).getImage().getUrl())
-				.placeholder(null).into(viewHolder.image);
+		viewHolder.description.setText(mObjects.get(position).getContent());
 
 		return convertView;
 	}
 
 	static class EventItemViewHolder {
-		FontableTextView title;
-		FontableTextView place;
-		FontableTextView date;
-		FontableTextView attendeesCount;
+		FontableTextView author;
+		FontableTextView description;
 		ImageView image;
 		ImageView fader;
+		ImageView avatar;
 	}
 }

@@ -98,13 +98,6 @@ public class PhotoResultActivity extends ActionBarActivity {
 		ContentResolver cr = this.getContentResolver();
 
 		try {
-			// http://stackoverflow.com/questions/13353839/outofmemeryerror-from-take-photo-android-in-some-devices
-
-			// mBitmap = android.provider.MediaStore.Images.Media.getBitmap(cr,
-			// MainModel.getInstance().imageUri);
-			//
-			// mResizedBitmap = getResizedBitmap(mBitmap, 1000);
-
 			mPhotoPreview.setImageBitmap(decodeSampledBitmapFromUri(
 					MainModel.getInstance().imageUri, 1000, 1000));
 		} catch (Exception e) {
@@ -241,9 +234,9 @@ public class PhotoResultActivity extends ActionBarActivity {
 		String url = Constants.WEB_SERVICE_URL + "Events/SendMessage" + "?eventId=" 
 				+ Constants.DUMMY_EVENT_ID
 				+ "&subject="
-				+ "ZSOLT2"
+				+ "TestSubject"
 				+ "&content="
-				+ "tenyleg nem tud csocsozni"
+				+ mCommentText.getText().toString()
 				+ "&userId="
 				+ Constants.DUMMY_USER_ID;
 

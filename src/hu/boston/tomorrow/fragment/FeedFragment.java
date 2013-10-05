@@ -87,4 +87,12 @@ public class FeedFragment extends Fragment {
 			mAdapter.notifyDataSetChanged();
 		}
 	}
+	
+	@Override
+	public void onPause() {
+		customHandler.removeCallbacks(updateTimerThread);
+		customHandler = null;
+		eventBus.unregister(this);
+		super.onPause();
+	}
 }
