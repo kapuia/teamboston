@@ -45,18 +45,14 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 		Message message = mObjects.get(position);
 		if (convertView == null) {
 
-			convertView = LayoutInflater.from(getContext()).inflate(
-					R.layout.feed_item, parent, false);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.feed_item, parent, false);
 
 			viewHolder = new EventItemViewHolder();
-			viewHolder.author = (FontableTextView) convertView
-					.findViewById(R.id.author);
-			viewHolder.description = (FontableTextView) convertView
-					.findViewById(R.id.description);
+			viewHolder.author = (FontableTextView) convertView.findViewById(R.id.author);
+			viewHolder.description = (FontableTextView) convertView.findViewById(R.id.description);
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
 			viewHolder.fader = (ImageView) convertView.findViewById(R.id.fader);
-			viewHolder.avatar = (ImageView) convertView
-					.findViewById(R.id.avatar);
+			viewHolder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
 
 			convertView.setTag(viewHolder);
 
@@ -64,8 +60,9 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			viewHolder = (EventItemViewHolder) convertView.getTag();
 		}
 
-		viewHolder.author.setText(message.getSender().getUserName());
-		
+		if (message.getSender() != null)
+			viewHolder.author.setText(message.getSender().getUserName());
+
 		if (message.getImage() == null || message.getImage().getUrl() == null) {
 			viewHolder.image.setVisibility(View.GONE);
 			viewHolder.fader.setVisibility(View.GONE);
@@ -73,15 +70,11 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			viewHolder.image.setVisibility(View.VISIBLE);
 			viewHolder.fader.setVisibility(View.VISIBLE);
 
-			Picasso.with(mContext)
-					.load(mObjects.get(position).getImage().getUrl())
-					.placeholder(null).into(viewHolder.image);
+			Picasso.with(mContext).load(mObjects.get(position).getImage().getUrl()).placeholder(null).into(viewHolder.image);
 		}
 
 		// TODO - beegetve Akos
-		Picasso.with(mContext).load(R.drawable.icon_akos).noFade()
-				.placeholder(null).transform(iconTransformation)
-				.into(viewHolder.avatar);
+		Picasso.with(mContext).load(R.drawable.icon_akos).noFade().placeholder(null).transform(iconTransformation).into(viewHolder.avatar);
 
 		viewHolder.description.setText(mObjects.get(position).getContent());
 

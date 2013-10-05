@@ -2,6 +2,7 @@ package hu.boston.tomorrow.activity;
 
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
+import hu.boston.tomorrow.events.EventChangedEvent;
 import hu.boston.tomorrow.events.EventsDownloadedEvent;
 import hu.boston.tomorrow.fragment.ContentFragment;
 import hu.boston.tomorrow.fragment.AllEventsFragment;
@@ -49,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	private DrawerAdapter adapter;
-	
+
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private ArrayList<String> mMenuTitles = new ArrayList<String>();
@@ -89,8 +90,7 @@ public class MainActivity extends ActionBarActivity {
 		// set up the drawer's list view with items and click listener
 		// mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 		// R.layout.drawer_list_item, mMenuTitles));
-		adapter = new DrawerAdapter(getApplicationContext(),
-				mMenuTitles);
+		adapter = new DrawerAdapter(getApplicationContext(), mMenuTitles);
 		mDrawerList.setAdapter(adapter);
 
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -135,22 +135,25 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	@Subscribe
+	public void eventSelected(EventChangedEvent event) {
+
+		selectItem(3);
+
+	}
+
+	@Subscribe
 	public void eventsDownloaded(EventsDownloadedEvent event) {
-		MainModel.getInstance().selectedEvent = MainModel.getInstance().events
-				.get(0);
-		GetEventContentsTask task2 = new GetEventContentsTask(this,
-				"8c65add0-6564-4430-98ec-62a8dfeffe5a");
+		MainModel.getInstance().selectedEvent = MainModel.getInstance().events.get(0);
+		GetEventContentsTask task2 = new GetEventContentsTask(this, "8c65add0-6564-4430-98ec-62a8dfeffe5a");
 		task2.execute();
-		
+
 		adapter.notifyDataSetChanged();
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			selectItem(position);
 		}
 	}
@@ -191,17 +194,18 @@ public class MainActivity extends ActionBarActivity {
 		// "WALL"
 		case 3:
 			mCurrentFragment = new WallFragment();
-			
-//			MainModel.getInstance().selectedContent = MainModel.getInstance().events
-//					.get(0).getEventContentList().get(0);
-//			mCurrentFragment = new ContentFragment();
+
+			// MainModel.getInstance().selectedContent =
+			// MainModel.getInstance().events
+			// .get(0).getEventContentList().get(0);
+			// mCurrentFragment = new ContentFragment();
 			break;
 
-		
 		case 4:
-//			MainModel.getInstance().selectedContent = MainModel.getInstance().events
-//					.get(0).getEventContentList().get(1);
-//			mCurrentFragment = new ContentFragment();
+			// MainModel.getInstance().selectedContent =
+			// MainModel.getInstance().events
+			// .get(0).getEventContentList().get(1);
+			// mCurrentFragment = new ContentFragment();
 			break;
 
 		default:
@@ -209,8 +213,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, mCurrentFragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, mCurrentFragment).commit();
 
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
@@ -222,8 +225,7 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 
-		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
-				.findItem(R.id.action_search));
+		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
 
 		mSearchView.setQueryHint("Search");
 		mSearchView.setIconifiedByDefault(true);
@@ -280,25 +282,20 @@ public class MainActivity extends ActionBarActivity {
 
 		try {
 			// place where to store camera taken picture
-			MainModel.getInstance().photo = this.createTemporaryFile("picture",
-					".jpg");
+			MainModel.getInstance().photo = this.createTemporaryFile("picture", ".jpg");
 			MainModel.getInstance().photo.delete();
 		} catch (Exception e) {
 			Log.d("DEBUG", "Can't create file to take picture!");
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
 		}
 		try {
-			MainModel.getInstance().imageUri = Uri.fromFile(MainModel
-					.getInstance().photo);
+			MainModel.getInstance().imageUri = Uri.fromFile(MainModel.getInstance().photo);
 
-			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-					MainModel.getInstance().imageUri);
+			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, MainModel.getInstance().imageUri);
 
 			startActivityForResult(takePictureIntent, RESULT_CAMERA_IMAGE);
 		} catch (Exception e) {
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
 		}
 	}
 
