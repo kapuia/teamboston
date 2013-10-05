@@ -2,17 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/hu.boston.tomorrow"
     android:layout_width="match_parent"
-    android:layout_height="340dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp" >
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:background="@drawable/card_bg" >
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/card_bg" />
+    <!-- <ImageView -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="fill_parent" -->
+    <!-- android:scaleType="fitXY" /> -->
 
     <hu.boston.tomorrow.widget.FontableTextView
         android:id="@+id/title"
@@ -35,151 +33,27 @@
         android:layout_below="@+id/title"
         android:scaleType="fitXY"
         android:src="@drawable/dummy_image" />
-    
-    <hu.boston.tomorrow.widget.FontableTextView
-        android:id="@+id/length"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_below="@+id/title"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#95000000"
-        android:paddingBottom="2dp"
-        android:paddingLeft="4.5dp"
-        android:paddingRight="4.5dp"
-        android:paddingTop="2dp"
-        android:text="5 days ago"
-        android:textColor="@android:color/white"
-        android:textSize="13sp"
-        app:font="font-siri/SiriCore-Regular_RB.ttf" />
-    
-    <hu.boston.tomorrow.widget.FontableTextView
-        android:id="@+id/length"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_below="@+id/title"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_alignParentRight="true"
-        android:background="#95000000"
-        android:paddingBottom="2dp"
-        android:paddingLeft="4.5dp"
-        android:paddingRight="4.5dp"
-        android:paddingTop="2dp"
-        android:text="45"
-        android:textColor="@android:color/white"
-        android:textSize="13sp"
-        app:font="font-siri/SiriCore-Regular_RB.ttf" />
-    
-    <ImageView 
+
+    <ImageView
         android:id="@+id/fader"
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:layout_below="@+id/title"
-        android:src="@drawable/fader_selector"/>
+        android:src="@drawable/fader_selector" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <hu.boston.tomorrow.widget.FontableTextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <hu.boston.tomorrow.widget.FontableTextView
-                android:id="@+id/where"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="6dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="Where"
-                android:textColor="#a4a4a4"
-                android:textSize="14sp"
-                app:font="Roboto-Light.ttf" />
-
-            <hu.boston.tomorrow.widget.FontableTextView
-                android:id="@+id/when"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/image"
-                android:layout_marginTop="6dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="When"
-                android:textColor="#a4a4a4"
-                android:textSize="14sp"
-                app:font="Roboto-Light.ttf" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <hu.boston.tomorrow.widget.FontableTextView
-                android:id="@+id/place"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/where"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="2"
-                android:text="Budapest, Hungary"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:font="Roboto-Light.ttf" />
-
-            <hu.boston.tomorrow.widget.FontableTextView
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/where"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="2"
-                android:text="4th of October"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:font="Roboto-Light.ttf" />
-        </LinearLayout>
-
-        <hu.boston.tomorrow.widget.FontableTextView
-            android:id="@+id/attendes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/image"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="# of Attendees"
-            android:textColor="#a4a4a4"
-            android:textSize="14sp"
-            app:font="Roboto-Light.ttf" />
-
-        <hu.boston.tomorrow.widget.FontableTextView
-            android:id="@+id/start_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/where"
-            android:layout_marginLeft="16dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="45"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:font="Roboto-Light.ttf" />
-    </LinearLayout>
+        android:layout_below="@+id/fader"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:singleLine="true"
+        android:text="Hackathon 2013"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:font="Roboto-Light.ttf" />
 
 </RelativeLayout>

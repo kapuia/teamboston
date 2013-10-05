@@ -60,6 +60,7 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 				}
 
 				MainModel.getInstance().events.add(event);
+				
 
 			} catch (JSONException e) {
 				e.printStackTrace();
