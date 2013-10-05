@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,10 +77,14 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 
 		viewHolder.title.setText(mObjects.get(position));
 
-		if (MainModel.getInstance().isHackathonEvent)
+		if (MainModel.getInstance().isHackathonEvent) {
 			viewHolder.icon.setImageDrawable(getContext().getResources().getDrawable(mIconsList.get(position)));
-		else
+			viewHolder.title.setTextColor(Color.parseColor("#525252"));
+		}
+		else {
 			viewHolder.icon.setImageDrawable(getContext().getResources().getDrawable(mMsIconsList.get(position)));
+			viewHolder.title.setTextColor(Color.parseColor("#ffffff"));
+		}
 
 		if (position == 2) {
 			viewHolder.eventImage.setVisibility(View.VISIBLE);

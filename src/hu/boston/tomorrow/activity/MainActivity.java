@@ -16,12 +16,14 @@ import hu.boston.tomorrow.model.EventContent;
 import hu.boston.tomorrow.model.MainModel;
 import hu.boston.tomorrow.task.GetEventContentsTask;
 import hu.boston.tomorrow.task.GetEventsTask;
+import hu.boston.tomorrow.util.UiUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -108,6 +110,9 @@ public class MainActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
+		
+		final Activity a = this;
+		
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
@@ -118,13 +123,13 @@ public class MainActivity extends ActionBarActivity {
 		) {
 			public void onDrawerClosed(View view) {
 				getSupportActionBar().setTitle(mTitle);
-				supportInvalidateOptionsMenu(); // creates call to
+				//supportInvalidateOptionsMenu(); // creates call to
 				updateStyle();
 			}
 
 			public void onDrawerOpened(View drawerView) {
 				getSupportActionBar().setTitle(mDrawerTitle);
-				supportInvalidateOptionsMenu(); // creates call to
+				//supportInvalidateOptionsMenu(); // creates call to
 				updateStyle();
 			}
 		};
@@ -160,6 +165,10 @@ public class MainActivity extends ActionBarActivity {
 		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
 		TextView yourTextView = (TextView) findViewById(titleId);
 
+		if(MainModel.getInstance().selectedEvent == null) {
+			return;
+		}
+		
 		if (MainModel.getInstance().selectedEvent.getEventId().equals("8c65add0-6564-4430-98ec-62a8dfeffe5a")) {
 			MainModel.getInstance().isHackathonEvent = false;
 
@@ -172,9 +181,9 @@ public class MainActivity extends ActionBarActivity {
 			mMenu.getItem(1).setIcon(this.getResources().getDrawable(R.drawable.icon_camera_2));
 			
 			mDrawerLayout.setBackgroundColor(Color.BLACK);
-			
-			
-
+			mDrawerList.setBackgroundColor(Color.parseColor("#444444"));
+			mDrawerList.setDivider(new ColorDrawable(Color.parseColor("#2d2d2d")));
+			mDrawerList.setDividerHeight(UiUtil.pXToDp(1, this));
 		} else {
 
 			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
@@ -188,6 +197,9 @@ public class MainActivity extends ActionBarActivity {
 			MainModel.getInstance().isHackathonEvent = true;
 			
 			mDrawerLayout.setBackgroundColor(Color.LTGRAY);
+			mDrawerList.setBackgroundColor(Color.parseColor("#f3f3f3"));
+			mDrawerList.setDivider(new ColorDrawable(Color.parseColor("#dcdcdc")));
+			mDrawerList.setDividerHeight(UiUtil.pXToDp(1, this));
 		}
 	}
 
@@ -236,6 +248,9 @@ public class MainActivity extends ActionBarActivity {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
+		
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		TextView yourTextView = (TextView) findViewById(titleId);
 	}
 
 	@Override

@@ -27,12 +27,15 @@ public class ContentFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_content, container, false);
 
-		TextView tv = (TextView) v.findViewById(R.id.textView);
-		tv.setText(eventContent.getTitle());
+//		TextView tv = (TextView) v.findViewById(R.id.textView);
+//		tv.setText(eventContent.getTitle());
 
 		WebView webView = (WebView) v.findViewById(R.id.webView);
 		webView.loadData(eventContent.getBody().get(0), "text/html", "utf-8");
 
+		webView.getSettings().setLoadWithOverviewMode(true);
+		webView.getSettings().setUseWideViewPort(true);
+		
 		// webView.setInitialScale(1);
 		// webView.getSettings().setLoadWithOverviewMode(true);
 		// webView.getSettings().setUseWideViewPort(true);
