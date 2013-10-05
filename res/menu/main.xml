@@ -2,19 +2,27 @@
     xmlns:appsocial="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/action_refresh"
-        android:icon="@drawable/icon_refresh_actionbar"
+        android:id="@+id/action_message"
+        android:icon="@drawable/icon_message"
         android:orderInCategory="100"
-        android:title="Refresh"
+        android:title="New Message"
         appsocial:showAsAction="always"/>
     
     <item
-        android:id="@+id/action_search"
-        appsocial:actionViewClass="android.support.v7.widget.SearchView"
-        android:icon="@drawable/icon_search_actionbar"
+        android:id="@+id/action_photo"
+        android:icon="@drawable/icon_camera"
         android:orderInCategory="101"
-        appsocial:showAsAction="always|collapseActionView"
-        android:title="Search"/>
+        android:title="New Photo"
+        appsocial:showAsAction="always"/>
+    
+    
+<!--     <item -->
+<!--         android:id="@+id/action_search" -->
+<!--         appsocial:actionViewClass="android.support.v7.widget.SearchView" -->
+<!--         android:icon="@drawable/icon_search_actionbar" -->
+<!--         android:orderInCategory="101" -->
+<!--         appsocial:showAsAction="always|collapseActionView" -->
+<!--         android:title="Search"/> -->
     
     <!-- android:icon="@drawable/icon_search_actionbar" -->
 

@@ -251,11 +251,11 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 
-		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
-				.findItem(R.id.action_search));
-
-		mSearchView.setQueryHint("Search");
-		mSearchView.setIconifiedByDefault(true);
+//		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
+//				.findItem(R.id.action_search));
+//
+//		mSearchView.setQueryHint("Search");
+//		mSearchView.setIconifiedByDefault(true);
 
 		// mSearchView.setOnQueryTextListener(this);
 		// mSearchView
@@ -287,7 +287,11 @@ public class MainActivity extends ActionBarActivity {
 			}
 			return true;
 
-		case R.id.action_refresh:
+		case R.id.action_message:
+			
+			break;
+			
+		case R.id.action_photo:
 			startCamera();
 			return true;
 
