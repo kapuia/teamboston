@@ -74,6 +74,7 @@ public class GetMessagesTask extends AsyncTask<Void, Void, JSONArray> {
 				} catch (JSONException e) {
 
 				}
+				message.setImage(imageModel);
 
 				// Sender
 				sender = new User();

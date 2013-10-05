@@ -9,9 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
@@ -34,16 +36,24 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		EventItemViewHolder viewHolder = null;
 
+		Message message = mObjects.get(position);
 		if (convertView == null) {
 
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_item, parent, false);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.feed_item, parent, false);
 
 			viewHolder = new EventItemViewHolder();
 			viewHolder.title = (FontableTextView) convertView.findViewById(R.id.title);
-			viewHolder.place = (FontableTextView) convertView.findViewById(R.id.place);
-			viewHolder.date = (FontableTextView) convertView.findViewById(R.id.date);
-			viewHolder.attendeesCount = (FontableTextView) convertView.findViewById(R.id.attendes);
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
+			viewHolder.fader = (ImageView) convertView.findViewById(R.id.fader);
+
+			// viewHolder.place = (FontableTextView)
+			// convertView.findViewById(R.id.place);
+			// viewHolder.date = (FontableTextView)
+			// convertView.findViewById(R.id.date);
+			// viewHolder.attendeesCount = (FontableTextView)
+			// convertView.findViewById(R.id.attendes);
+			// viewHolder.image = (ImageView)
+			// convertView.findViewById(R.id.image);
 
 			convertView.setTag(viewHolder);
 
@@ -51,7 +61,12 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			viewHolder = (EventItemViewHolder) convertView.getTag();
 		}
 
-		viewHolder.title.setText(mObjects.get(position).getSubject());
+		viewHolder.title.setText(message.getContent());
+		if (message.getImage() == null || message.getImage().getUrl() == null) {
+			viewHolder.image.setVisibility(View.GONE);
+			viewHolder.fader.setVisibility(View.GONE);
+		}
+
 		// viewHolder.place.setText(mObjects.get(position).get)
 
 		// viewHolder.date.setText(mDateFormat.format(mObjects.get(position).getStartTime())
@@ -70,5 +85,6 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 		FontableTextView date;
 		FontableTextView attendeesCount;
 		ImageView image;
+		ImageView fader;
 	}
 }

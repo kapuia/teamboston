@@ -25,7 +25,7 @@ public class FeedFragment extends Fragment {
 	private ListView mListView;
 	private FeedAdapter mAdapter;
 	private EventBus eventBus;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -42,10 +42,8 @@ public class FeedFragment extends Fragment {
 		}
 
 		mListView = (ListView) v.findViewById(R.id.listView);
-		
+
 		return v;
-		
-		
 
 	}
 
