@@ -105,7 +105,7 @@ public class WebServiceConnector {
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.DUMMY_USER_ID));
+				Constants.USER_ID));
 
 		String url = Constants.WEB_SERVICE_URL + "Events/List" + "?";
 
@@ -125,7 +125,7 @@ public class WebServiceConnector {
 			throws ClientProtocolException, IOException {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.DUMMY_USER_ID));
+				Constants.USER_ID));
 		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
 
 		String url = Constants.WEB_SERVICE_URL + "Events/Contents" + "?";
@@ -147,7 +147,7 @@ public class WebServiceConnector {
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.DUMMY_USER_ID));
+				Constants.USER_ID));
 		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
 
 		String url = Constants.WEB_SERVICE_URL + "Events/Messages" + "?";
@@ -169,7 +169,7 @@ public class WebServiceConnector {
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.DUMMY_USER_ID));
+				Constants.USER_ID));
 		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
 		nameValuePairs.add(new BasicNameValuePair("subject", subject));
 		nameValuePairs.add(new BasicNameValuePair("content", content));
@@ -192,7 +192,7 @@ public class WebServiceConnector {
 			throws ClientProtocolException, IOException {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.DUMMY_USER_ID));
+				Constants.USER_ID));
 
 		String url = Constants.WEB_SERVICE_URL + "Users/Profile" + "?";
 

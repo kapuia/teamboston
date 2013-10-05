@@ -35,15 +35,13 @@ public class WallFragment extends Fragment {
 	private Handler customHandler = new Handler();
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		eventBus = EventBusManager.getInstance();
 		eventBus.register(this);
 		View v = inflater.inflate(R.layout.fragment_wall, container, false);
 
-		GetMessagesTask gsm = new GetMessagesTask(getActivity(),
-				MainModel.getInstance().selectedEvent.getEventId());
+		GetMessagesTask gsm = new GetMessagesTask(getActivity(), MainModel.getInstance().selectedEvent.getEventId());
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			gsm.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -56,15 +54,12 @@ public class WallFragment extends Fragment {
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
 
-				Intent intent = new Intent(getActivity(),
-						ImagePagerActivity.class);
+				Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
 				Bundle value = new Bundle();
 
-				Message message = MainModel.getInstance().selectedEvent
-						.getMessages().get(position);
+				Message message = MainModel.getInstance().selectedEvent.getMessages().get(position);
 				value.putString("image", message.getImage().getUrl());
 				value.putString("description", message.getContent());
 				intent.putExtras(value);
@@ -85,8 +80,7 @@ public class WallFragment extends Fragment {
 			Log.d("DEBUG", "START ASYNC");
 
 			// TODO - Figyelni, hogy lefutott-e az elozo
-			GetMessagesTask gsm = new GetMessagesTask(getActivity(),
-					MainModel.getInstance().selectedEvent.getEventId());
+			GetMessagesTask gsm = new GetMessagesTask(getActivity(), MainModel.getInstance().selectedEvent.getEventId());
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				gsm.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			} else {
@@ -101,16 +95,13 @@ public class WallFragment extends Fragment {
 
 	@Subscribe
 	public void wallUpdted(MessagesDownloadedEvent event) {
-		Log.d("DEBUG", "RESULT!!! "
-				+ MainModel.getInstance().selectedEvent.getMessages().size());
+		Log.d("DEBUG", "RESULT!!! " + MainModel.getInstance().selectedEvent.getMessages().size());
 
 		if (mAdapter == null) {
-			mAdapter = new FeedAdapter(getActivity(),
-					MainModel.getInstance().selectedEvent.getMessages());
+			mAdapter = new FeedAdapter(getActivity(), MainModel.getInstance().selectedEvent.getMessages());
 			mListView.setAdapter(mAdapter);
 		} else {
-			mAdapter.setObjects(MainModel.getInstance().selectedEvent
-					.getMessages());
+			mAdapter.setObjects(MainModel.getInstance().selectedEvent.getMessages());
 			mAdapter.notifyDataSetChanged();
 		}
 	}
@@ -123,5 +114,15 @@ public class WallFragment extends Fragment {
 			eventBus.unregister(this);
 		}
 		super.onPause();
+	}
+
+	@Override
+	public void onResume() {
+		if (customHandler == null) {
+			customHandler = new Handler();
+			customHandler.postDelayed(updateTimerThread, 3000);
+			eventBus.register(this);
+		}
+		super.onResume();
 	}
 }

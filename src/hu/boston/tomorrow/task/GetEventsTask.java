@@ -3,6 +3,7 @@ package hu.boston.tomorrow.task;
 import hu.boston.tomorrow.events.EventsDownloadedEvent;
 import hu.boston.tomorrow.managers.EventBusManager;
 import hu.boston.tomorrow.model.Event;
+import hu.boston.tomorrow.model.ImageModel;
 import hu.boston.tomorrow.model.MainModel;
 import hu.boston.tomorrow.services.WebServiceConnector;
 
@@ -41,6 +42,8 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 
 		SimpleDateFormat format = MainModel.getInstance().format;
 
+		ImageModel imageModel;
+		
 		for (int i = 0; i < result.length(); i++) {
 			try {
 				JSONObject json = (JSONObject) result.get(i);
@@ -58,6 +61,18 @@ public class GetEventsTask extends AsyncTask<Void, Void, JSONArray> {
 					event.setEndTime(new Date());
 					e.printStackTrace();
 				}
+				
+				// Image
+				imageModel = new ImageModel();
+				try {
+					JSONObject imageModelObject = json.getJSONObject("Image");
+					if (imageModelObject != null) {
+						imageModel.setUrl(imageModelObject.getString("Url"));
+					}
+				} catch (JSONException e) {
+
+				}
+				event.setImageModel(imageModel);
 
 				MainModel.getInstance().events.add(event);
 				

@@ -1,5 +1,7 @@
 package hu.boston.tomorrow.task;
 
+import hu.boston.tomorrow.events.EventContentDownloadedEvent;
+import hu.boston.tomorrow.managers.EventBusManager;
 import hu.boston.tomorrow.model.Event;
 import hu.boston.tomorrow.model.EventContent;
 import hu.boston.tomorrow.model.MainModel;
@@ -14,15 +16,19 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.google.common.eventbus.EventBus;
+
 public class GetEventContentsTask extends AsyncTask<Void, Void, JSONArray> {
 
 	private Context mContext;
 	private WebServiceConnector mConn;
 	private String mEventId;
+	private EventBus eventBus;
 
 	public GetEventContentsTask(Context context, String eventId) {
 		mContext = context;
 		mEventId = eventId;
+		eventBus = EventBusManager.getInstance();
 	}
 
 	@Override
@@ -43,14 +49,14 @@ public class GetEventContentsTask extends AsyncTask<Void, Void, JSONArray> {
 				EventContent content = new EventContent();
 				content.setContentId(json.getString("ContentId"));
 				content.setTitle(json.getString("Title"));
-				
+
 				JSONArray bodyArray = json.getJSONArray("Body");
-				ArrayList<String> bodyList =new ArrayList<String>();
-				
+				ArrayList<String> bodyList = new ArrayList<String>();
+
 				for (int j = 0; j < bodyArray.length(); j++) {
 
-					 String s = bodyArray.get(j).toString();
-					 bodyList.add(s);
+					String s = bodyArray.get(j).toString();
+					bodyList.add(s);
 				}
 
 				content.setBody(bodyList);
@@ -64,7 +70,7 @@ public class GetEventContentsTask extends AsyncTask<Void, Void, JSONArray> {
 		}
 
 		event.setEventContentList(contents);
-
+		eventBus.post(new EventContentDownloadedEvent(event));
 		super.onPostExecute(result);
 	}
 

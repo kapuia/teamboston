@@ -3,6 +3,7 @@ package hu.boston.tomorrow.fragment;
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.EventsAdapter;
 import hu.boston.tomorrow.events.EventChangedEvent;
+import hu.boston.tomorrow.events.EventsDownloadedEvent;
 import hu.boston.tomorrow.managers.EventBusManager;
 import hu.boston.tomorrow.model.Event;
 import hu.boston.tomorrow.model.MainModel;
@@ -16,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class AllEventsFragment extends Fragment {
 
@@ -26,6 +28,7 @@ public class AllEventsFragment extends Fragment {
 	public AllEventsFragment() {
 
 		eventBus = EventBusManager.getInstance();
+		eventBus.register(this);
 	}
 
 	// TODO - Loading anim until the data is unavailable
@@ -53,5 +56,13 @@ public class AllEventsFragment extends Fragment {
 		});
 
 		return v;
+	}
+
+	@Subscribe
+	public void eventsDownloaded(EventsDownloadedEvent event) {
+
+		mAdapter = new EventsAdapter(getActivity(), MainModel.getInstance().events);
+		mListView.setAdapter(mAdapter);
+
 	}
 }

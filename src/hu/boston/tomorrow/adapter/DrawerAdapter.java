@@ -51,18 +51,13 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 
 		if (convertView == null) {
 
-			convertView = LayoutInflater.from(getContext()).inflate(
-					R.layout.drawer_list_item, parent, false);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.drawer_list_item, parent, false);
 
 			viewHolder = new DrawerItemViewHolder();
-			viewHolder.icon = (ImageView) convertView
-					.findViewById(R.id.menu_icon);
-			viewHolder.title = (FontableTextView) convertView
-					.findViewById(R.id.menu_name);
-			viewHolder.eventImage = (ImageView) convertView
-					.findViewById(R.id.event_image);
-			viewHolder.eventTitle = (FontableTextView) convertView
-					.findViewById(R.id.event_title);
+			viewHolder.icon = (ImageView) convertView.findViewById(R.id.menu_icon);
+			viewHolder.title = (FontableTextView) convertView.findViewById(R.id.menu_name);
+			viewHolder.eventImage = (ImageView) convertView.findViewById(R.id.event_image);
+			viewHolder.eventTitle = (FontableTextView) convertView.findViewById(R.id.event_title);
 			viewHolder.dateAgo = (FontableTextView) convertView.findViewById(R.id.date_ago);
 			convertView.setTag(viewHolder);
 
@@ -71,16 +66,19 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 		}
 
 		viewHolder.title.setText(mObjects.get(position));
-		viewHolder.icon.setImageDrawable(getContext().getResources()
-				.getDrawable(mIconsList.get(position)));
-		
-		if(position == 2) {
+		viewHolder.icon.setImageDrawable(getContext().getResources().getDrawable(mIconsList.get(position)));
+
+		if (position == 2) {
 			viewHolder.eventImage.setVisibility(View.VISIBLE);
 			viewHolder.eventTitle.setVisibility(View.VISIBLE);
 			viewHolder.dateAgo.setVisibility(View.VISIBLE);
+
 			// TODO - event image
-			//Picasso.with(mContext).load(MainModel.getInstance().events.get(0).getEventContentList().get(index))
-			if(MainModel.getInstance().events.size() > 0) {
+			if (MainModel.getInstance().selectedEvent != null && MainModel.getInstance().selectedEvent.getImageModel() != null
+					&& MainModel.getInstance().selectedEvent.getImageModel().getUrl() != null)
+				Picasso.with(mContext).load(MainModel.getInstance().selectedEvent.getImageModel().getUrl()).into(viewHolder.eventImage);
+
+			if (MainModel.getInstance().events.size() > 0) {
 				viewHolder.eventTitle.setText(MainModel.getInstance().events.get(0).getTitle());
 			}
 		} else {
