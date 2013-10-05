@@ -22,6 +22,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,16 +32,16 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.eventbus.EventBus;
@@ -57,6 +60,8 @@ public class MainActivity extends ActionBarActivity {
 	private CharSequence mTitle;
 	private ArrayList<String> mMenuTitles = new ArrayList<String>();
 
+	private Menu mMenu;
+	
 	private int mCurrentPage;
 	private Fragment mCurrentFragment;
 
@@ -140,6 +145,26 @@ public class MainActivity extends ActionBarActivity {
 	public void eventSelected(EventChangedEvent event) {
 		selectItem(3);
 
+		if(MainModel.getInstance().selectedEvent.getEventId().equals("8c65add0-6564-4430-98ec-62a8dfeffe5a")) {
+			MainModel.getInstance().isHackathonEvent = false;
+			
+			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+			getSupportActionBar().setLogo(this.getResources().getDrawable(R.drawable.logo_microsoft));
+
+			int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+			TextView yourTextView = (TextView)findViewById(titleId);
+			yourTextView.setTextColor(Color.WHITE);
+			
+			
+			mMenu.getItem(1).setIcon(this.getResources().getDrawable(R.drawable.icon_refresh_actionbar));
+						
+		} else {
+			
+			//getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+			
+			MainModel.getInstance().isHackathonEvent = true;
+		}
+		
 		int size = mMenuTitles.size() - 4;
 		
 		for(int i = 0; i < size; i++) {
@@ -251,6 +276,8 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 
+		mMenu = menu;
+		
 //		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
 //				.findItem(R.id.action_search));
 //

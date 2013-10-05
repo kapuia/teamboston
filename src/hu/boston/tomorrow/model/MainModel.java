@@ -21,6 +21,8 @@ public class MainModel {
 	
 	public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
+	public boolean isHackathonEvent = true; 
+	
 	public static MainModel getInstance() {
 		if (_instance == null) {
 			_instance = new MainModel();

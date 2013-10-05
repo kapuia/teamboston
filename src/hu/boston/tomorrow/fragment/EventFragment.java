@@ -1,6 +1,7 @@
 package hu.boston.tomorrow.fragment;
 
 import hu.boston.tomorrow.R;
+import hu.boston.tomorrow.model.MainModel;
 
 import java.util.Locale;
 
@@ -16,12 +17,20 @@ import android.widget.ImageView;
 
 public class EventFragment extends Fragment {
 
+	private ImageView mTopImage;
 	private ImageView mMap;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.fragment_event, container, false);
+		
+		mTopImage = (ImageView) v.findViewById(R.id.top_image);
+		
+		if(!MainModel.getInstance().isHackathonEvent) {
+			mTopImage.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.dummy_image_microsoft));
+		}
+		
 		
 		mMap = (ImageView) v.findViewById(R.id.map_image);
 		mMap.setOnClickListener(new OnClickListener() {
