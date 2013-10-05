@@ -3,6 +3,7 @@ package hu.boston.tomorrow.activity;
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
 import hu.boston.tomorrow.events.EventChangedEvent;
+import hu.boston.tomorrow.events.EventContentDownloadedEvent;
 import hu.boston.tomorrow.events.EventsDownloadedEvent;
 import hu.boston.tomorrow.fragment.AllEventsFragment;
 import hu.boston.tomorrow.fragment.ContentFragment;
@@ -26,8 +27,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings.Secure;
-import android.provider.SyncStateContract.Constants;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -79,9 +78,9 @@ public class MainActivity extends ActionBarActivity {
 		mMenuTitles.add("Profile");
 		mMenuTitles.add("Current Event");
 		mMenuTitles.add("Wall");
-		mMenuTitles.add("Schedule");
-		mMenuTitles.add("Speakers");
-		mMenuTitles.add("Attendees");
+		// mMenuTitles.add("Schedule");
+		// mMenuTitles.add("Speakers");
+		// mMenuTitles.add("Attendees");
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_list);
@@ -136,19 +135,33 @@ public class MainActivity extends ActionBarActivity {
 		Set<String> pushTags = new HashSet<String>();
 		pushTags.add("all");
 		PushManager.shared().setTags(pushTags);
-
-		String android_id = Secure.getString(this.getContentResolver(), Secure.ANDROID_ID);
-
-		// if (android_id == "4f44a5f3e48e4dc9")
-		// hu.boston.tomorrow.Constants.USER_ID = ""
-
 	}
 
 	@Subscribe
 	public void eventSelected(EventChangedEvent event) {
 		selectItem(3);
+		updateMenu();
+	}
 
-		// TODO:cserélni a menüt
+	private void updateMenu() {
+		int size = mMenuTitles.size() - 4;
+
+		for (int i = 0; i < size; i++) {
+			mMenuTitles.remove(4);
+		}
+
+		for (EventContent eventContent : MainModel.getInstance().selectedEvent.getEventContentList()) {
+
+			mMenuTitles.add(eventContent.getTitle());
+		}
+
+		adapter.notifyDataSetChanged();
+	}
+
+	@Subscribe
+	public void eventContentDownloadedEvent(EventContentDownloadedEvent event) {
+		if (event.getEvent() == MainModel.getInstance().selectedEvent)
+			updateMenu();
 	}
 
 	@Subscribe
@@ -240,10 +253,12 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 
-		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-
-		mSearchView.setQueryHint("Search");
-		mSearchView.setIconifiedByDefault(true);
+		// SearchView mSearchView = (SearchView)
+		// MenuItemCompat.getActionView(menu
+		// .findItem(R.id.action_search));
+		//
+		// mSearchView.setQueryHint("Search");
+		// mSearchView.setIconifiedByDefault(true);
 
 		// mSearchView.setOnQueryTextListener(this);
 		// mSearchView
@@ -275,7 +290,11 @@ public class MainActivity extends ActionBarActivity {
 			}
 			return true;
 
-		case R.id.action_refresh:
+		case R.id.action_message:
+
+			break;
+
+		case R.id.action_photo:
 			startCamera();
 			return true;
 
