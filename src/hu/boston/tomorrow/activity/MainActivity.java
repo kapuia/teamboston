@@ -4,12 +4,14 @@ import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
 import hu.boston.tomorrow.events.EventChangedEvent;
 import hu.boston.tomorrow.events.EventsDownloadedEvent;
-import hu.boston.tomorrow.fragment.ContentFragment;
 import hu.boston.tomorrow.fragment.AllEventsFragment;
+import hu.boston.tomorrow.fragment.ContentFragment;
 import hu.boston.tomorrow.fragment.EventFragment;
-import hu.boston.tomorrow.fragment.WallFragment;
 import hu.boston.tomorrow.fragment.ProfileFragment;
+import hu.boston.tomorrow.fragment.WallFragment;
 import hu.boston.tomorrow.managers.EventBusManager;
+import hu.boston.tomorrow.model.Event;
+import hu.boston.tomorrow.model.EventContent;
 import hu.boston.tomorrow.model.MainModel;
 import hu.boston.tomorrow.task.GetEventContentsTask;
 import hu.boston.tomorrow.task.GetEventsTask;
@@ -136,16 +138,19 @@ public class MainActivity extends ActionBarActivity {
 
 	@Subscribe
 	public void eventSelected(EventChangedEvent event) {
-
 		selectItem(3);
 
+		//TODO:cserélni a menüt
 	}
 
 	@Subscribe
 	public void eventsDownloaded(EventsDownloadedEvent event) {
 		MainModel.getInstance().selectedEvent = MainModel.getInstance().events.get(0);
-		GetEventContentsTask task2 = new GetEventContentsTask(this, "8c65add0-6564-4430-98ec-62a8dfeffe5a");
-		task2.execute();
+
+		for (Event eeee : MainModel.getInstance().events) {
+			GetEventContentsTask task2 = new GetEventContentsTask(this, eeee.getEventId());
+			task2.execute();
+		}
 
 		adapter.notifyDataSetChanged();
 	}
@@ -201,15 +206,17 @@ public class MainActivity extends ActionBarActivity {
 			// mCurrentFragment = new ContentFragment();
 			break;
 
-		case 4:
-			// MainModel.getInstance().selectedContent =
-			// MainModel.getInstance().events
-			// .get(0).getEventContentList().get(1);
-			// mCurrentFragment = new ContentFragment();
-			break;
-
 		default:
-			return;
+
+			if (position > 3) {
+
+				Event event = MainModel.getInstance().selectedEvent;
+				ArrayList<EventContent> contentList = event.getEventContentList();
+				MainModel.getInstance().selectedContent = contentList.get(position - 4);
+				mCurrentFragment = new ContentFragment();
+
+			} else
+				return;
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
