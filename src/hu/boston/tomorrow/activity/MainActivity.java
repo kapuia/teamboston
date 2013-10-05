@@ -123,7 +123,7 @@ public class MainActivity extends ActionBarActivity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		if (savedInstanceState == null) {
-			selectItem(1);
+			selectItem(0);
 		} else {
 			setTitle(mMenuTitles.get(savedInstanceState.getInt("currentPage")));
 		}
