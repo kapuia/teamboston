@@ -22,6 +22,7 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 
 	// TODO - Ne itt legyen beegetve
 	private ArrayList<Integer> mIconsList = new ArrayList<Integer>();
+	private ArrayList<Integer> mMsIconsList = new ArrayList<Integer>();
 
 	public DrawerAdapter(Context context, ArrayList<String> items) {
 		super(context, R.layout.menu_frame, items);
@@ -29,13 +30,21 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 		mContext = context;
 		mObjects = items;
 
+		mIconsList.add(R.drawable.event);
+		mIconsList.add(R.drawable.profil);
 		mIconsList.add(R.drawable.ic_launcher);
+		mIconsList.add(R.drawable.wall);
+		mIconsList.add(R.drawable.schedule);
+		mIconsList.add(R.drawable.speakers);
 		mIconsList.add(R.drawable.ic_launcher);
-		mIconsList.add(R.drawable.ic_launcher);
-		mIconsList.add(R.drawable.ic_launcher);
-		mIconsList.add(R.drawable.ic_launcher);
-		mIconsList.add(R.drawable.ic_launcher);
-		mIconsList.add(R.drawable.ic_launcher);
+
+		mMsIconsList.add(R.drawable.ms_event);
+		mMsIconsList.add(R.drawable.ms_profile);
+		mMsIconsList.add(R.drawable.ic_launcher);
+		mMsIconsList.add(R.drawable.ms_wall);
+		mMsIconsList.add(R.drawable.ms_schedule);
+		mMsIconsList.add(R.drawable.ms_speakers);
+		mMsIconsList.add(R.drawable.ic_launcher);
 
 		// mIconsList.add(R.drawable.icon_social_feed);
 		// mIconsList.add(R.drawable.icon_social_feed);
@@ -66,7 +75,11 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 		}
 
 		viewHolder.title.setText(mObjects.get(position));
-		viewHolder.icon.setImageDrawable(getContext().getResources().getDrawable(mIconsList.get(position)));
+
+		if (MainModel.getInstance().isHackathonEvent)
+			viewHolder.icon.setImageDrawable(getContext().getResources().getDrawable(mIconsList.get(position)));
+		else
+			viewHolder.icon.setImageDrawable(getContext().getResources().getDrawable(mMsIconsList.get(position)));
 
 		if (position == 2) {
 			viewHolder.eventImage.setVisibility(View.VISIBLE);
@@ -78,8 +91,8 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 					&& MainModel.getInstance().selectedEvent.getImageModel().getUrl() != null)
 				Picasso.with(mContext).load(MainModel.getInstance().selectedEvent.getImageModel().getUrl()).into(viewHolder.eventImage);
 
-			if (MainModel.getInstance().events.size() > 0) {
-				viewHolder.eventTitle.setText(MainModel.getInstance().events.get(0).getTitle());
+			if (MainModel.getInstance().selectedEvent != null) {
+				viewHolder.eventTitle.setText(MainModel.getInstance().selectedEvent.getTitle());
 			}
 		} else {
 			viewHolder.eventImage.setVisibility(View.GONE);

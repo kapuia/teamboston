@@ -170,6 +170,10 @@ public class MainActivity extends ActionBarActivity {
 
 			mMenu.getItem(0).setIcon(this.getResources().getDrawable(R.drawable.icon_message_2));
 			mMenu.getItem(1).setIcon(this.getResources().getDrawable(R.drawable.icon_camera_2));
+			
+			mDrawerLayout.setBackgroundColor(Color.BLACK);
+			
+			
 
 		} else {
 
@@ -182,6 +186,8 @@ public class MainActivity extends ActionBarActivity {
 			yourTextView.setTextColor(Color.BLACK);
 
 			MainModel.getInstance().isHackathonEvent = true;
+			
+			mDrawerLayout.setBackgroundColor(Color.LTGRAY);
 		}
 	}
 

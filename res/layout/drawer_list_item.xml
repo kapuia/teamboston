@@ -2,37 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/hu.boston.tomorrow"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
         android:scaleType="fitXY" />
 
     <hu.boston.tomorrow.widget.FontableTextView
         android:id="@+id/menu_name"
         android:layout_width="wrap_content"
-        android:layout_height="55dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/menu_icon"
         android:gravity="center_vertical"
-        android:layout_marginLeft="16dp"
         android:singleLine="true"
         android:text="text"
         android:textColor="#525252"
         android:textSize="20sp"
         app:font="Roboto-Regular.ttf" />
-    
+
     <ImageView
         android:id="@+id/event_image"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center"
         android:scaleType="centerCrop"
-        android:visibility="gone"
-        android:src="@drawable/dummy_image" />
+        android:src="@drawable/dummy_image"
+        android:visibility="gone" />
 
     <hu.boston.tomorrow.widget.FontableTextView
         android:id="@+id/event_title"
@@ -40,17 +41,17 @@
         android:layout_height="40dp"
         android:layout_alignLeft="@+id/menu_icon"
         android:layout_alignParentBottom="true"
-        android:singleLine="true"
         android:ellipsize="end"
+        android:shadowColor="#000000"
+        android:shadowDy="1"
+        android:shadowRadius="1"
+        android:singleLine="true"
         android:text="text"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        android:shadowDy="1"
-        android:shadowRadius="1"
-        android:shadowColor="#000000"
-        app:font="Roboto-Regular.ttf"
-        android:visibility="gone" />
-    
+        android:visibility="gone"
+        app:font="Roboto-Regular.ttf" />
+
     <hu.boston.tomorrow.widget.FontableTextView
         android:id="@+id/date_ago"
         android:layout_width="wrap_content"
@@ -67,5 +68,5 @@
         android:textColor="@android:color/white"
         android:textSize="13sp"
         app:font="font-siri/SiriCore-Regular_RB.ttf" />
-    
+
 </RelativeLayout>

@@ -89,8 +89,6 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			viewHolder.author.setTextColor((mContext.getResources().getColor(R.color.white)));
 		}
 
-		// TODO - beegetve Akos
-
 		viewHolder.description.setText(mObjects.get(position).getContent());
 
 		return convertView;

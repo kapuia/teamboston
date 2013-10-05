@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/hu.boston.tomorrow"
+    android:id="@+id/rootlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -17,6 +18,7 @@
             android:src="@drawable/dummy_image" />
 
         <LinearLayout
+            android:id="@+id/inforoot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -146,12 +148,13 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/maproot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/card_bg2" >
 
             <hu.boston.tomorrow.widget.FontableTextView
@@ -174,7 +177,7 @@
                 android:layout_height="170dp"
                 android:layout_below="@+id/map_title"
                 android:scaleType="centerCrop"
-                android:src="@drawable/dummy_map"/>
+                android:src="@drawable/dummy_map" />
 
             <ImageView
                 android:id="@+id/fader"
@@ -184,15 +187,15 @@
                 android:src="@drawable/fader_selector" />
 
             <hu.boston.tomorrow.widget.FontableTextView
-                android:id="@+id/description"
+                android:id="@+id/location_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fader"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
                 android:layout_marginLeft="16dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 android:singleLine="true"
                 android:text="Distinction HQ 1081 Budapest, Saletrom Street 37."
                 android:textColor="#000000"
