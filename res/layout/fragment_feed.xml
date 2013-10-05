@@ -8,16 +8,19 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:animationCache="false"
         android:cacheColorHint="@null"
         android:choiceMode="singleChoice"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:dividerHeight="16dp"
         android:clipToPadding="false"
         android:divider="@null"
+        android:dividerHeight="16dp"
         android:fadingEdge="none"
         android:listSelector="@android:color/transparent"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:scrollbars="none"
         android:scrollingCache="false" />
 
 </LinearLayout>

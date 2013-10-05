@@ -30,6 +30,10 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 
 		mDateFormat = new SimpleDateFormat("EEEE, MMMM, d");
 	}
+	
+	public void setObjects(ArrayList<Message> items) {
+		mObjects = items;
+	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {

@@ -2,17 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/hu.boston.tomorrow"
     android:layout_width="match_parent"
-    android:layout_height="340dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp" >
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/card_bg" />
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_bg2" >
 
     <hu.boston.tomorrow.widget.FontableTextView
         android:id="@+id/title"
@@ -33,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:layout_below="@+id/title"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/dummy_image" />
     
     <hu.boston.tomorrow.widget.FontableTextView
@@ -173,6 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/where"
             android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
