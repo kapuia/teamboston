@@ -140,15 +140,29 @@ public class MainActivity extends ActionBarActivity {
 	public void eventSelected(EventChangedEvent event) {
 		selectItem(3);
 
-		//TODO:cserélni a menüt
+		int size = mMenuTitles.size() - 4;
+		
+		for(int i = 0; i < size; i++) {
+			mMenuTitles.remove(4);
+		}
+		
+		for (EventContent eventContent : MainModel.getInstance().selectedEvent
+				.getEventContentList()) {
+
+			mMenuTitles.add(eventContent.getTitle());
+		}
+		
+		adapter.notifyDataSetChanged();
 	}
 
 	@Subscribe
 	public void eventsDownloaded(EventsDownloadedEvent event) {
-		MainModel.getInstance().selectedEvent = MainModel.getInstance().events.get(0);
+		MainModel.getInstance().selectedEvent = MainModel.getInstance().events
+				.get(0);
 
 		for (Event eeee : MainModel.getInstance().events) {
-			GetEventContentsTask task2 = new GetEventContentsTask(this, eeee.getEventId());
+			GetEventContentsTask task2 = new GetEventContentsTask(this,
+					eeee.getEventId());
 			task2.execute();
 		}
 
@@ -156,9 +170,11 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 			selectItem(position);
 		}
 	}
@@ -211,8 +227,10 @@ public class MainActivity extends ActionBarActivity {
 			if (position > 3) {
 
 				Event event = MainModel.getInstance().selectedEvent;
-				ArrayList<EventContent> contentList = event.getEventContentList();
-				MainModel.getInstance().selectedContent = contentList.get(position - 4);
+				ArrayList<EventContent> contentList = event
+						.getEventContentList();
+				MainModel.getInstance().selectedContent = contentList
+						.get(position - 4);
 				mCurrentFragment = new ContentFragment();
 
 			} else
@@ -220,7 +238,8 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.content_frame, mCurrentFragment).commit();
+		fragmentManager.beginTransaction()
+				.replace(R.id.content_frame, mCurrentFragment).commit();
 
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
@@ -232,7 +251,8 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 
-		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
+				.findItem(R.id.action_search));
 
 		mSearchView.setQueryHint("Search");
 		mSearchView.setIconifiedByDefault(true);
@@ -289,20 +309,25 @@ public class MainActivity extends ActionBarActivity {
 
 		try {
 			// place where to store camera taken picture
-			MainModel.getInstance().photo = this.createTemporaryFile("picture", ".jpg");
+			MainModel.getInstance().photo = this.createTemporaryFile("picture",
+					".jpg");
 			MainModel.getInstance().photo.delete();
 		} catch (Exception e) {
 			Log.d("DEBUG", "Can't create file to take picture!");
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
+					Toast.LENGTH_SHORT).show();
 		}
 		try {
-			MainModel.getInstance().imageUri = Uri.fromFile(MainModel.getInstance().photo);
+			MainModel.getInstance().imageUri = Uri.fromFile(MainModel
+					.getInstance().photo);
 
-			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, MainModel.getInstance().imageUri);
+			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+					MainModel.getInstance().imageUri);
 
 			startActivityForResult(takePictureIntent, RESULT_CAMERA_IMAGE);
 		} catch (Exception e) {
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
