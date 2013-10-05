@@ -14,6 +14,8 @@ import hu.boston.tomorrow.task.GetEventsTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -37,6 +39,7 @@ import android.widget.Toast;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.urbanairship.push.PushManager;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -84,7 +87,8 @@ public class MainActivity extends ActionBarActivity {
 		// set up the drawer's list view with items and click listener
 		// mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 		// R.layout.drawer_list_item, mMenuTitles));
-		DrawerAdapter adapter = new DrawerAdapter(getApplicationContext(), mMenuTitles);
+		DrawerAdapter adapter = new DrawerAdapter(getApplicationContext(),
+				mMenuTitles);
 		mDrawerList.setAdapter(adapter);
 
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -123,19 +127,26 @@ public class MainActivity extends ActionBarActivity {
 		GetEventsTask task = new GetEventsTask(this);
 		task.execute();
 
+		Set<String> pushTags = new HashSet<String>();
+		pushTags.add("all");
+		PushManager.shared().setTags(pushTags);
 	}
 
 	@Subscribe
 	public void eventsDownloaded(EventsDownloadedEvent event) {
-		MainModel.getInstance().selectedEvent = MainModel.getInstance().events.get(0);
-		GetEventContentsTask task2 = new GetEventContentsTask(this, "8c65add0-6564-4430-98ec-62a8dfeffe5a");
+		MainModel.getInstance().selectedEvent = MainModel.getInstance().events
+				.get(0);
+		GetEventContentsTask task2 = new GetEventContentsTask(this,
+				"8c65add0-6564-4430-98ec-62a8dfeffe5a");
 		task2.execute();
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 			selectItem(position);
 		}
 	}
@@ -172,12 +183,14 @@ public class MainActivity extends ActionBarActivity {
 			break;
 
 		case 3:
-			MainModel.getInstance().selectedContent = MainModel.getInstance().events.get(0).getEventContentList().get(0);
+			MainModel.getInstance().selectedContent = MainModel.getInstance().events
+					.get(0).getEventContentList().get(0);
 			mCurrentFragment = new ContentFragment();
 			break;
 
 		case 4:
-			MainModel.getInstance().selectedContent = MainModel.getInstance().events.get(0).getEventContentList().get(1);
+			MainModel.getInstance().selectedContent = MainModel.getInstance().events
+					.get(0).getEventContentList().get(1);
 			mCurrentFragment = new ContentFragment();
 			break;
 
@@ -186,7 +199,8 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.content_frame, mCurrentFragment).commit();
+		fragmentManager.beginTransaction()
+				.replace(R.id.content_frame, mCurrentFragment).commit();
 
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
@@ -198,7 +212,8 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 
-		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
+				.findItem(R.id.action_search));
 
 		mSearchView.setQueryHint("Search");
 		mSearchView.setIconifiedByDefault(true);
@@ -255,20 +270,25 @@ public class MainActivity extends ActionBarActivity {
 
 		try {
 			// place where to store camera taken picture
-			MainModel.getInstance().photo = this.createTemporaryFile("picture", ".jpg");
+			MainModel.getInstance().photo = this.createTemporaryFile("picture",
+					".jpg");
 			MainModel.getInstance().photo.delete();
 		} catch (Exception e) {
 			Log.d("DEBUG", "Can't create file to take picture!");
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
+					Toast.LENGTH_SHORT).show();
 		}
 		try {
-			MainModel.getInstance().imageUri = Uri.fromFile(MainModel.getInstance().photo);
+			MainModel.getInstance().imageUri = Uri.fromFile(MainModel
+					.getInstance().photo);
 
-			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, MainModel.getInstance().imageUri);
+			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+					MainModel.getInstance().imageUri);
 
 			startActivityForResult(takePictureIntent, RESULT_CAMERA_IMAGE);
 		} catch (Exception e) {
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -280,7 +300,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return File.createTempFile(part, ext, tempDir);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
