@@ -4,9 +4,10 @@ import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
 import hu.boston.tomorrow.events.EventsDownloadedEvent;
 import hu.boston.tomorrow.fragment.ContentFragment;
-import hu.boston.tomorrow.fragment.EventChooserFragment;
-import hu.boston.tomorrow.fragment.FeedFragment;
-import hu.boston.tomorrow.fragment.Profile_Fragment;
+import hu.boston.tomorrow.fragment.AllEventsFragment;
+import hu.boston.tomorrow.fragment.EventFragment;
+import hu.boston.tomorrow.fragment.WallFragment;
+import hu.boston.tomorrow.fragment.ProfileFragment;
 import hu.boston.tomorrow.managers.EventBusManager;
 import hu.boston.tomorrow.model.MainModel;
 import hu.boston.tomorrow.task.GetEventContentsTask;
@@ -174,22 +175,22 @@ public class MainActivity extends ActionBarActivity {
 
 		// "ALL EVENTS"
 		case 0:
-			mCurrentFragment = new EventChooserFragment();
+			mCurrentFragment = new AllEventsFragment();
 			break;
 
 		// "PROFILE"
 		case 1:
-			mCurrentFragment = new Profile_Fragment();
+			mCurrentFragment = new ProfileFragment();
 			break;
 
 		// "CURRENT EVENT"
 		case 2:
-			mCurrentFragment = new FeedFragment();
+			mCurrentFragment = new EventFragment();
 			break;
 
 		// "WALL"
 		case 3:
-			mCurrentFragment = new FeedFragment();
+			mCurrentFragment = new WallFragment();
 			
 //			MainModel.getInstance().selectedContent = MainModel.getInstance().events
 //					.get(0).getEventContentList().get(0);

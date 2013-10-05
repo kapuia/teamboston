@@ -21,7 +21,7 @@ import android.widget.ListView;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-public class FeedFragment extends Fragment {
+public class WallFragment extends Fragment {
 
 	private ListView mListView;
 	private FeedAdapter mAdapter;
@@ -35,7 +35,7 @@ public class FeedFragment extends Fragment {
 
 		eventBus = EventBusManager.getInstance();
 		eventBus.register(this);
-		View v = inflater.inflate(R.layout.fragment_feed, container, false);
+		View v = inflater.inflate(R.layout.fragment_wall, container, false);
 
 		GetMessagesTask gsm = new GetMessagesTask(getActivity(),
 				MainModel.getInstance().selectedEvent.getEventId());

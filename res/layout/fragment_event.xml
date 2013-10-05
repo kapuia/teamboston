@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/hu.boston.tomorrow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dummy_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/card_bg"
+            android:orientation="vertical" >
+
+            <hu.boston.tomorrow.widget.FontableTextView
+                android:id="@+id/information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Information"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:font="Roboto-Light.ttf" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <hu.boston.tomorrow.widget.FontableTextView
+                        android:id="@+id/from"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="From"
+                        android:textColor="#a4a4a4"
+                        android:textSize="14sp"
+                        app:font="Roboto-Light.ttf" />
+
+                    <hu.boston.tomorrow.widget.FontableTextView
+                        android:id="@+id/to"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/image"
+                        android:layout_marginTop="6dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="To"
+                        android:textColor="#a4a4a4"
+                        android:textSize="14sp"
+                        app:font="Roboto-Light.ttf" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <hu.boston.tomorrow.widget.FontableTextView
+                        android:id="@+id/from_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/where"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="04.10.2013 17.00"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        app:font="Roboto-Light.ttf" />
+
+                    <hu.boston.tomorrow.widget.FontableTextView
+                        android:id="@+id/to_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/where"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="05.10.2013. 18.00"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        app:font="Roboto-Light.ttf" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <hu.boston.tomorrow.widget.FontableTextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="Description"
+                android:textColor="#a4a4a4"
+                android:textSize="14sp"
+                app:font="Roboto-Light.ttf" />
+
+            <hu.boston.tomorrow.widget.FontableTextView
+                android:id="@+id/description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/where"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:text="Synergistically supply bleeding-edge materials for synergistic solutions. Energistically matrix value-added best practices for user friendly technologies. Vollaboratively reconceptualize stand-alone paradigms whereas extensible mindshare."
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:font="Roboto-Light.ttf" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/card_bg2" >
+
+            <hu.boston.tomorrow.widget.FontableTextView
+                android:id="@+id/map_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:singleLine="true"
+                android:text="Location"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:font="Roboto-Light.ttf" />
+
+            <ImageView
+                android:id="@+id/map_image"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_below="@+id/map_title"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy_map"/>
+
+            <ImageView
+                android:id="@+id/fader"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_below="@+id/map_title"
+                android:src="@drawable/fader_selector" />
+
+            <hu.boston.tomorrow.widget.FontableTextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fader"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="Distinction HQ 1081 Budapest, Saletrom Street 37."
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:font="Roboto-Light.ttf" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>
