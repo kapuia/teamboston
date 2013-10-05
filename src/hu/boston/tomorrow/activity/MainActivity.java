@@ -9,6 +9,7 @@ import hu.boston.tomorrow.fragment.AllEventsFragment;
 import hu.boston.tomorrow.fragment.ContentFragment;
 import hu.boston.tomorrow.fragment.EventFragment;
 import hu.boston.tomorrow.fragment.ProfileFragment;
+import hu.boston.tomorrow.fragment.SendMessageDialogFragment;
 import hu.boston.tomorrow.fragment.WallFragment;
 import hu.boston.tomorrow.managers.EventBusManager;
 import hu.boston.tomorrow.model.Event;
@@ -42,6 +43,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -355,7 +357,9 @@ public class MainActivity extends ActionBarActivity {
 			return true;
 
 		case R.id.action_message:
-
+			FragmentManager fm = this.getSupportFragmentManager();
+			SendMessageDialogFragment dialog = new SendMessageDialogFragment();
+			dialog.show(fm, "calendar_dialog");
 			break;
 
 		case R.id.action_photo:

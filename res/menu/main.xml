@@ -26,10 +26,10 @@
     
     <!-- android:icon="@drawable/icon_search_actionbar" -->
 
-    <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/action_settings"
-        android:orderInCategory="102"
-        android:showAsAction="ifRoom"
-        android:title="Settings"/>
+<!--     <item -->
+<!--         android:id="@+id/action_settings" -->
+<!--         android:icon="@drawable/action_settings" -->
+<!--         android:orderInCategory="102" -->
+<!--         android:showAsAction="ifRoom" -->
+<!--         android:title="Settings"/> -->
 </menu>

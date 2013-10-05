@@ -59,8 +59,7 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 		// viewHolder.place.setText(mObjects.get(position).get)
 
 		viewHolder.description.setText(mObjects.get(position).getDescription());
-		viewHolder.date.setText(mDateFormat.format(mObjects.get(position).getStartTime()) + "\n"
-				+ mDateFormat.format(mObjects.get(position).getEndTime()));
+		viewHolder.date.setText(mDateFormat.format(mObjects.get(position).getStartTime()));
 
 		if (mObjects.get(position).getImageModel() != null && mObjects.get(position).getImageModel().getUrl() != null)
 			Picasso.with(mContext).load(mObjects.get(position).getImageModel().getUrl()).into(viewHolder.image);

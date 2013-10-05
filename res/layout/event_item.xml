@@ -30,7 +30,7 @@
     <hu.boston.tomorrow.widget.FontableTextView
         android:id="@+id/date_ago"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="22dp"
         android:layout_below="@+id/title"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"

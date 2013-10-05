@@ -59,6 +59,11 @@ public class WallFragment extends Fragment {
 				Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
 				Bundle value = new Bundle();
 
+				if(MainModel.getInstance().selectedEvent.getMessages().get(position).getImage() != null &&
+						MainModel.getInstance().selectedEvent.getMessages().get(position).getImage().getUrl() == null) {
+					return;
+				}
+				
 				Message message = MainModel.getInstance().selectedEvent.getMessages().get(position);
 				value.putString("image", message.getImage().getUrl());
 				value.putString("description", message.getContent());

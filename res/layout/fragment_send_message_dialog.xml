@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/hu.boston.tomorrow"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_bg_without_shadow"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp" >
+
+        <hu.boston.tomorrow.widget.FontableTextView
+            android:id="@+id/raceName"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:paddingBottom="4dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:singleLine="true"
+            android:text="Send a message:"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            app:font="Roboto-Light.ttf" />
+
+        <hu.boston.tomorrow.widget.FontableEditText
+            android:id="@+id/comment_text"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/textfield_bg"
+            android:gravity="center_vertical"
+            android:hint="Comment"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:singleLine="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:font="Roboto-Regular.ttf" />
+
+        <hu.boston.tomorrow.widget.FontableTextView
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_bg_selector"
+            android:gravity="center_horizontal"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="Send"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            app:font="Roboto-Light.ttf" />
+    </LinearLayout>
+
+</ScrollView>
