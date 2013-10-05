@@ -11,6 +11,8 @@ public class Event {
 	private Date startTime;
 	private Date endTime;
 	private ArrayList<EventContent> eventContentList;
+	
+	private ImageModel imageModel;
 
 	private ArrayList<Message> messages;
 	public String getEventId() {
@@ -67,5 +69,13 @@ public class Event {
 
 	public void setMessages(ArrayList<Message> messages) {
 		this.messages = messages;
+	}
+
+	public ImageModel getImageModel() {
+		return imageModel;
+	}
+
+	public void setImageModel(ImageModel imageModel) {
+		this.imageModel = imageModel;
 	}
 }

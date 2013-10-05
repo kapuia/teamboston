@@ -89,8 +89,7 @@ public class PhotoResultActivity extends ActionBarActivity {
 
 	public void grabImage() {
 		try {
-			this.getContentResolver().notifyChange(
-					MainModel.getInstance().imageUri, null);
+			this.getContentResolver().notifyChange(MainModel.getInstance().imageUri, null);
 		} catch (Exception e) {
 
 		}
@@ -98,16 +97,13 @@ public class PhotoResultActivity extends ActionBarActivity {
 		ContentResolver cr = this.getContentResolver();
 
 		try {
-			mPhotoPreview.setImageBitmap(decodeSampledBitmapFromUri(
-					MainModel.getInstance().imageUri, 1000, 1000));
+			mPhotoPreview.setImageBitmap(decodeSampledBitmapFromUri(MainModel.getInstance().imageUri, 1000, 1000));
 		} catch (Exception e) {
-			Toast.makeText(this, "Nem sikerült a kép betöltése!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Nem sikerült a kép betöltése!", Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	private int calculateInSampleSize(BitmapFactory.Options options,
-			int reqWidth, int reqHeight) {
+	private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 		// Raw height and width of image
 		final int height = options.outHeight;
 		final int width = options.outWidth;
@@ -123,8 +119,7 @@ public class PhotoResultActivity extends ActionBarActivity {
 		return inSampleSize;
 	}
 
-	private Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth,
-			int reqHeight) {
+	private Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth, int reqHeight) {
 
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -132,11 +127,9 @@ public class PhotoResultActivity extends ActionBarActivity {
 		Rect rect = new Rect(0, 0, reqWidth, reqHeight);
 
 		try {
-			BitmapFactory.decodeStream(getContentResolver()
-					.openInputStream(uri), rect, options);
+			BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), rect, options);
 			// Calculate inSampleSize
-			options.inSampleSize = calculateInSampleSize(options, reqWidth,
-					reqHeight);
+			options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
 			// Decode bitmap with inSampleSize set
 			options.inJustDecodeBounds = false;
@@ -144,19 +137,14 @@ public class PhotoResultActivity extends ActionBarActivity {
 			// BitmapFactory.decodeStream(getContentResolver().openInputStream(uri),
 			// null, options);
 
-			Bitmap bm = BitmapFactory.decodeStream(getContentResolver()
-					.openInputStream(uri), null, options);
+			Bitmap bm = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
 
 			Matrix matrix = new Matrix();
 
 			try {
-				mContext.getContentResolver().notifyChange(
-						MainModel.getInstance().imageUri, null);
-				ExifInterface exif = new ExifInterface(
-						MainModel.getInstance().photo.getAbsolutePath());
-				int orientation = exif.getAttributeInt(
-						ExifInterface.TAG_ORIENTATION,
-						ExifInterface.ORIENTATION_NORMAL);
+				mContext.getContentResolver().notifyChange(MainModel.getInstance().imageUri, null);
+				ExifInterface exif = new ExifInterface(MainModel.getInstance().photo.getAbsolutePath());
+				int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
 				switch (orientation) {
 				case ExifInterface.ORIENTATION_ROTATE_270:
@@ -179,15 +167,13 @@ public class PhotoResultActivity extends ActionBarActivity {
 			}
 
 			// RECREATE THE NEW BITMAP
-			Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
-					bm.getHeight(), matrix, false);
+			Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
 
 			try {
 				ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 				resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
-				FileOutputStream fo = new FileOutputStream(
-						MainModel.getInstance().photo);
+				FileOutputStream fo = new FileOutputStream(MainModel.getInstance().photo);
 				fo.write(bytes.toByteArray());
 				fo.close();
 			} catch (FileNotFoundException e) {
@@ -213,39 +199,28 @@ public class PhotoResultActivity extends ActionBarActivity {
 		}
 
 		if (mCommentText.getText().toString().length() == 0) {
-			Toast.makeText(this, "Couldn't updload the image without co",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Couldn't updload the image without co", Toast.LENGTH_SHORT).show();
 			return;
 		}
 
 		if (!isConnectedToTheInternet(getApplicationContext())) {
-			Toast.makeText(this, "No internet connection, please try later!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "No internet connection, please try later!", Toast.LENGTH_SHORT).show();
 			return;
 		}
 
 		mIsSended = true;
 
-		mDialog = ProgressDialog.show(PhotoResultActivity.this, "",
-				"Image uploading...", true);
+		mDialog = ProgressDialog.show(PhotoResultActivity.this, "", "Image uploading...", true);
 
 		UploadService us = new UploadService();
 
-		String url = Constants.WEB_SERVICE_URL + "Events/SendMessage" + "?eventId=" 
-				+ Constants.DUMMY_EVENT_ID
-				+ "&subject="
-				+ "TestSubject"
-				+ "&content="
-				+ mCommentText.getText().toString()
-				+ "&userId="
-				+ Constants.DUMMY_USER_ID;
+		String url = Constants.WEB_SERVICE_URL + "Events/SendMessage" + "?eventId=" + MainModel.getInstance().selectedEvent.getEventId()
+				+ "&subject=" + "TestSubject" + "&content=" + mCommentText.getText().toString() + "&userId=" + Constants.USER_ID;
 
 		url = url.replace(" ", "%20");
 
-		NameValuePair[] list2 = {
-				new BasicNameValuePair("url", url),
-				new BasicNameValuePair("image",
-						MainModel.getInstance().photo.getAbsolutePath()) };
+		NameValuePair[] list2 = { new BasicNameValuePair("url", url),
+				new BasicNameValuePair("image", MainModel.getInstance().photo.getAbsolutePath()) };
 
 		us.execute(list2);
 	}
@@ -259,28 +234,19 @@ public class PhotoResultActivity extends ActionBarActivity {
 			HttpPost httpPost = null;
 
 			try {
-				MultipartEntity entity = new MultipartEntity(
-						HttpMultipartMode.BROWSER_COMPATIBLE);
+				MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 
 				for (int index = 0; index < nameValuePairs.length; index++) {
-					if (nameValuePairs[index].getName().equalsIgnoreCase(
-							"image")) {
+					if (nameValuePairs[index].getName().equalsIgnoreCase("image")) {
 						// If the key equals to "image", we use FileBody to
 						// transfer
 						// the data
-						entity.addPart(
-								nameValuePairs[index].getName(),
-								new FileBody(new File(nameValuePairs[index]
-										.getValue())));
-					} else if (nameValuePairs[index].getName()
-							.equalsIgnoreCase("url")) {
-						httpPost = new HttpPost(
-								nameValuePairs[index].getValue());
+						entity.addPart(nameValuePairs[index].getName(), new FileBody(new File(nameValuePairs[index].getValue())));
+					} else if (nameValuePairs[index].getName().equalsIgnoreCase("url")) {
+						httpPost = new HttpPost(nameValuePairs[index].getValue());
 					} else {
 						// Normal string data
-						entity.addPart(
-								nameValuePairs[index].getName(),
-								new StringBody(nameValuePairs[index].getValue()));
+						entity.addPart(nameValuePairs[index].getName(), new StringBody(nameValuePairs[index].getValue()));
 					}
 				}
 
@@ -288,9 +254,9 @@ public class PhotoResultActivity extends ActionBarActivity {
 
 				return httpClient.execute(httpPost, localContext);
 			} catch (IOException e) {
-				
+
 			} catch (Exception e) {
-				
+
 			}
 
 			Log.d("DEBUG", "EXCEPTION IN SENDING REQUEST");
@@ -307,57 +273,50 @@ public class PhotoResultActivity extends ActionBarActivity {
 				JSONObject respObject = null;
 
 				finish();
-				
-//				try {
-//					CinemaResult cr = null;
-//					respObject = new JSONObject(responseBody);
-//
-//					cr = new CinemaResult(respObject.getBoolean("IsSuccess"),
-//							respObject.getJSONArray("Items").toString(),
-//							respObject.getString("Code"));
-//
-//					MainModel.getInstance().currentCinemaResult = cr;
-//
-//					MainModel.getInstance().pastCinemaResults.add(cr);
-//					SerializatorHandler.saveArrayList(getApplicationContext(),
-//							"history.bin", MainModel.getInstance().kryo,
-//							MainModel.getInstance().pastCinemaResults,
-//							CinemaResult.class, new CinemaResultSerializator());
-//
-//					Intent intent = new Intent(mContext, ResultActivity.class);
-//					intent.putExtra("isSuccess", cr.isSuccess);
-//					intent.putExtra("response", cr.response);
-//					startActivity(intent);
-//
-//					previewImage.setImageBitmap(null);
-//				} catch (JSONException e) {
-//					Toast.makeText(getApplicationContext(),
-//							"Sikertelen feltöltés kérem próbálkozzon újból!",
-//							Toast.LENGTH_SHORT).show();
-//					mIsSended = false;
-//				}
+
+				// try {
+				// CinemaResult cr = null;
+				// respObject = new JSONObject(responseBody);
+				//
+				// cr = new CinemaResult(respObject.getBoolean("IsSuccess"),
+				// respObject.getJSONArray("Items").toString(),
+				// respObject.getString("Code"));
+				//
+				// MainModel.getInstance().currentCinemaResult = cr;
+				//
+				// MainModel.getInstance().pastCinemaResults.add(cr);
+				// SerializatorHandler.saveArrayList(getApplicationContext(),
+				// "history.bin", MainModel.getInstance().kryo,
+				// MainModel.getInstance().pastCinemaResults,
+				// CinemaResult.class, new CinemaResultSerializator());
+				//
+				// Intent intent = new Intent(mContext, ResultActivity.class);
+				// intent.putExtra("isSuccess", cr.isSuccess);
+				// intent.putExtra("response", cr.response);
+				// startActivity(intent);
+				//
+				// previewImage.setImageBitmap(null);
+				// } catch (JSONException e) {
+				// Toast.makeText(getApplicationContext(),
+				// "Sikertelen feltöltés kérem próbálkozzon újból!",
+				// Toast.LENGTH_SHORT).show();
+				// mIsSended = false;
+				// }
 			} catch (ParseException e) {
 				mIsSended = false;
-				Toast.makeText(getApplicationContext(),
-						"Sikertelen feltöltés kérem próbálkozzon újból!",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Sikertelen feltöltés kérem próbálkozzon újból!", Toast.LENGTH_SHORT).show();
 			} catch (IOException e) {
 				mIsSended = false;
-				Toast.makeText(getApplicationContext(),
-						"Sikertelen feltöltés kérem próbálkozzon újból!",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Sikertelen feltöltés kérem próbálkozzon újból!", Toast.LENGTH_SHORT).show();
 			} catch (Exception e) {
 				mIsSended = false;
-				Toast.makeText(getApplicationContext(),
-						"Sikertelen feltöltés kérem próbálkozzon újból!",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Sikertelen feltöltés kérem próbálkozzon újból!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
 	public static boolean isConnectedToTheInternet(Context context) {
-		ConnectivityManager cm = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
 			return true;

@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings.Secure;
+import android.provider.SyncStateContract.Constants;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -134,13 +136,19 @@ public class MainActivity extends ActionBarActivity {
 		Set<String> pushTags = new HashSet<String>();
 		pushTags.add("all");
 		PushManager.shared().setTags(pushTags);
+
+		String android_id = Secure.getString(this.getContentResolver(), Secure.ANDROID_ID);
+
+		// if (android_id == "4f44a5f3e48e4dc9")
+		// hu.boston.tomorrow.Constants.USER_ID = ""
+
 	}
 
 	@Subscribe
 	public void eventSelected(EventChangedEvent event) {
 		selectItem(3);
 
-		//TODO:cserélni a menüt
+		// TODO:cserélni a menüt
 	}
 
 	@Subscribe
