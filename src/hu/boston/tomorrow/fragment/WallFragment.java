@@ -68,6 +68,12 @@ public class WallFragment extends Fragment {
 			}
 		});
 
+		if (!MainModel.getInstance().isHackathonEvent) {
+
+			View rootlayout = v.findViewById(R.id.rootlayout);
+			rootlayout.setBackgroundColor(getResources().getColor(R.color.black));
+		}
+
 		customHandler.postDelayed(updateTimerThread, 3000);
 
 		return v;

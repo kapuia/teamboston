@@ -35,8 +35,7 @@ public class WebServiceConnector {
 		this.context = context;
 	}
 
-	private String execute(String url, List<NameValuePair> nameValuePairs)
-			throws ClientProtocolException, IOException {
+	private String execute(String url, List<NameValuePair> nameValuePairs) throws ClientProtocolException, IOException {
 		String response = "";
 
 		String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
@@ -46,17 +45,14 @@ public class WebServiceConnector {
 		HttpGet httpget = new HttpGet(url);
 
 		ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-			public String handleResponse(final HttpResponse response)
-					throws HttpResponseException, IOException {
+			public String handleResponse(final HttpResponse response) throws HttpResponseException, IOException {
 				StatusLine statusLine = response.getStatusLine();
 				if (statusLine.getStatusCode() >= 300) {
-					throw new HttpResponseException(statusLine.getStatusCode(),
-							statusLine.getReasonPhrase());
+					throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
 				}
 
 				HttpEntity entity = response.getEntity();
-				return entity == null ? null : EntityUtils.toString(entity,
-						"UTF-8");
+				return entity == null ? null : EntityUtils.toString(entity, "UTF-8");
 			}
 		};
 
@@ -65,8 +61,7 @@ public class WebServiceConnector {
 	}
 
 	// TODO - Image
-	private String executePost(String url, List<NameValuePair> nameValuePairs)
-			throws ClientProtocolException, IOException {
+	private String executePost(String url, List<NameValuePair> nameValuePairs) throws ClientProtocolException, IOException {
 
 		String response = "";
 
@@ -82,17 +77,14 @@ public class WebServiceConnector {
 		httppost.setEntity(new UrlEncodedFormEntity(postNameValuePairs));
 
 		ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-			public String handleResponse(final HttpResponse response)
-					throws HttpResponseException, IOException {
+			public String handleResponse(final HttpResponse response) throws HttpResponseException, IOException {
 				StatusLine statusLine = response.getStatusLine();
 				if (statusLine.getStatusCode() >= 300) {
-					throw new HttpResponseException(statusLine.getStatusCode(),
-							statusLine.getReasonPhrase());
+					throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
 				}
 
 				HttpEntity entity = response.getEntity();
-				return entity == null ? null : EntityUtils.toString(entity,
-						"UTF-8");
+				return entity == null ? null : EntityUtils.toString(entity, "UTF-8");
 			}
 		};
 
@@ -100,12 +92,10 @@ public class WebServiceConnector {
 		return response;
 	}
 
-	public JSONObject getEventsList() throws ClientProtocolException,
-			IOException {
+	public JSONObject getEventsList() throws ClientProtocolException, IOException {
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.USER_ID));
+		nameValuePairs.add(new BasicNameValuePair("userId", Constants.USER_ID));
 
 		String url = Constants.WEB_SERVICE_URL + "Events/List" + "?";
 
@@ -121,11 +111,9 @@ public class WebServiceConnector {
 		return json;
 	}
 
-	public JSONObject getEventContents(String eventId)
-			throws ClientProtocolException, IOException {
+	public JSONObject getEventContents(String eventId) throws ClientProtocolException, IOException {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.USER_ID));
+		nameValuePairs.add(new BasicNameValuePair("userId", Constants.USER_ID));
 		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
 
 		String url = Constants.WEB_SERVICE_URL + "Events/Contents" + "?";
@@ -142,12 +130,10 @@ public class WebServiceConnector {
 		return json;
 	}
 
-	public JSONObject getMessagesList(String eventId)
-			throws ClientProtocolException, IOException {
+	public JSONObject getMessagesList(String eventId) throws ClientProtocolException, IOException {
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.USER_ID));
+		nameValuePairs.add(new BasicNameValuePair("userId", Constants.USER_ID));
 		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
 
 		String url = Constants.WEB_SERVICE_URL + "Events/Messages" + "?";
@@ -164,12 +150,10 @@ public class WebServiceConnector {
 		return json;
 	}
 
-	public JSONObject sendMessage(String eventId, String subject,
-			String content) throws ClientProtocolException, IOException {
+	public JSONObject sendMessage(String eventId, String subject, String content) throws ClientProtocolException, IOException {
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.USER_ID));
+		nameValuePairs.add(new BasicNameValuePair("userId", Constants.USER_ID));
 		nameValuePairs.add(new BasicNameValuePair("eventId", eventId));
 		nameValuePairs.add(new BasicNameValuePair("subject", subject));
 		nameValuePairs.add(new BasicNameValuePair("content", content));
@@ -187,12 +171,10 @@ public class WebServiceConnector {
 
 		return json;
 	}
-	
-	public JSONObject getUserProfile(String userId) 
-			throws ClientProtocolException, IOException {
+
+	public JSONObject getUserProfile(String userId) throws ClientProtocolException, IOException {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		nameValuePairs.add(new BasicNameValuePair("userId",
-				Constants.USER_ID));
+		nameValuePairs.add(new BasicNameValuePair("userId", Constants.USER_ID));
 
 		String url = Constants.WEB_SERVICE_URL + "Users/Profile" + "?";
 

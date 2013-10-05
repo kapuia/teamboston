@@ -62,8 +62,16 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			viewHolder = (EventItemViewHolder) convertView.getTag();
 		}
 
-		if (message.getSender() != null)
-			viewHolder.author.setText(message.getSender().getUserName());
+		if (message.getSender() != null) {
+			viewHolder.author.setText(message.getSender().getDisplayName());
+
+			if (!mObjects.get(position).getSender().getUserName().equals("kapuia")) {
+				Picasso.with(mContext).load(R.drawable.icon_laszlo).noFade().placeholder(null).transform(iconTransformation).into(viewHolder.avatar);
+
+			} else
+				Picasso.with(mContext).load(R.drawable.icon_akos).noFade().placeholder(null).transform(iconTransformation).into(viewHolder.avatar);
+
+		}
 
 		if (message.getImage() == null || message.getImage().getUrl() == null) {
 			viewHolder.image.setVisibility(View.GONE);
@@ -75,12 +83,13 @@ public class FeedAdapter extends ArrayAdapter<Message> {
 			Picasso.with(mContext).load(mObjects.get(position).getImage().getUrl()).placeholder(null).into(viewHolder.image);
 		}
 
-		viewHolder.root.setBackground(mContext.getResources().getDrawable(R.drawable.card_bg_blue));
-		viewHolder.description.setTextColor(mContext.getResources().getColor(R.color.white));
-		viewHolder.author.setTextColor((mContext.getResources().getColor(R.color.white)));
+		if (!MainModel.getInstance().isHackathonEvent) {
+			viewHolder.root.setBackground(mContext.getResources().getDrawable(R.drawable.card_bg_blue));
+			viewHolder.description.setTextColor(mContext.getResources().getColor(R.color.white));
+			viewHolder.author.setTextColor((mContext.getResources().getColor(R.color.white)));
+		}
 
 		// TODO - beegetve Akos
-		Picasso.with(mContext).load(R.drawable.icon_akos).noFade().placeholder(null).transform(iconTransformation).into(viewHolder.avatar);
 
 		viewHolder.description.setText(mObjects.get(position).getContent());
 

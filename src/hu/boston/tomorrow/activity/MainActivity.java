@@ -3,6 +3,7 @@ package hu.boston.tomorrow.activity;
 import hu.boston.tomorrow.R;
 import hu.boston.tomorrow.adapter.DrawerAdapter;
 import hu.boston.tomorrow.events.EventChangedEvent;
+import hu.boston.tomorrow.events.EventContentDownloadedEvent;
 import hu.boston.tomorrow.events.EventsDownloadedEvent;
 import hu.boston.tomorrow.fragment.AllEventsFragment;
 import hu.boston.tomorrow.fragment.ContentFragment;
@@ -29,12 +30,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings.Secure;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
 	private ArrayList<String> mMenuTitles = new ArrayList<String>();
 
 	private Menu mMenu;
-	
+
 	private int mCurrentPage;
 	private Fragment mCurrentFragment;
 
@@ -118,11 +119,13 @@ public class MainActivity extends ActionBarActivity {
 			public void onDrawerClosed(View view) {
 				getSupportActionBar().setTitle(mTitle);
 				supportInvalidateOptionsMenu(); // creates call to
+				updateStyle();
 			}
 
 			public void onDrawerOpened(View drawerView) {
 				getSupportActionBar().setTitle(mDrawerTitle);
 				supportInvalidateOptionsMenu(); // creates call to
+				updateStyle();
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -139,67 +142,85 @@ public class MainActivity extends ActionBarActivity {
 		Set<String> pushTags = new HashSet<String>();
 		pushTags.add("all");
 		PushManager.shared().setTags(pushTags);
+
+		String android_id = Secure.getString(this.getContentResolver(), Secure.ANDROID_ID);
+
+		if (android_id.equals("4f44a5f3e48e4dc9"))
+			hu.boston.tomorrow.Constants.USER_ID = "1DC79F8D-83D3-42DC-9DBA-7820DA91C8C2";
 	}
 
 	@Subscribe
 	public void eventSelected(EventChangedEvent event) {
 		selectItem(3);
+		updateStyle();
+		updateMenu();
+	}
 
-		if(MainModel.getInstance().selectedEvent.getEventId().equals("8c65add0-6564-4430-98ec-62a8dfeffe5a")) {
+	private void updateStyle() {
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		TextView yourTextView = (TextView) findViewById(titleId);
+
+		if (MainModel.getInstance().selectedEvent.getEventId().equals("8c65add0-6564-4430-98ec-62a8dfeffe5a")) {
 			MainModel.getInstance().isHackathonEvent = false;
-			
-			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
 			getSupportActionBar().setLogo(this.getResources().getDrawable(R.drawable.logo_microsoft));
 
-			int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-			TextView yourTextView = (TextView)findViewById(titleId);
 			yourTextView.setTextColor(Color.WHITE);
-			
-			
-			mMenu.getItem(1).setIcon(this.getResources().getDrawable(R.drawable.icon_refresh_actionbar));
-						
+
+			mMenu.getItem(0).setIcon(this.getResources().getDrawable(R.drawable.icon_message_2));
+			mMenu.getItem(1).setIcon(this.getResources().getDrawable(R.drawable.icon_camera_2));
+
 		} else {
-			
-			//getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-			
+
+			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
+			getSupportActionBar().setLogo(this.getResources().getDrawable(R.drawable.app_icon2));
+
+			mMenu.getItem(0).setIcon(this.getResources().getDrawable(R.drawable.icon_message));
+			mMenu.getItem(1).setIcon(this.getResources().getDrawable(R.drawable.icon_camera));
+
+			yourTextView.setTextColor(Color.BLACK);
+
 			MainModel.getInstance().isHackathonEvent = true;
 		}
-		
+	}
+
+	private void updateMenu() {
 		int size = mMenuTitles.size() - 4;
-		
-		for(int i = 0; i < size; i++) {
+
+		for (int i = 0; i < size; i++) {
 			mMenuTitles.remove(4);
 		}
-		
-		for (EventContent eventContent : MainModel.getInstance().selectedEvent
-				.getEventContentList()) {
 
+		for (EventContent eventContent : MainModel.getInstance().selectedEvent.getEventContentList()) {
 			mMenuTitles.add(eventContent.getTitle());
 		}
-		
+
 		adapter.notifyDataSetChanged();
 	}
 
 	@Subscribe
 	public void eventsDownloaded(EventsDownloadedEvent event) {
-		MainModel.getInstance().selectedEvent = MainModel.getInstance().events
-				.get(0);
+		MainModel.getInstance().selectedEvent = MainModel.getInstance().events.get(0);
 
 		for (Event eeee : MainModel.getInstance().events) {
-			GetEventContentsTask task2 = new GetEventContentsTask(this,
-					eeee.getEventId());
+			GetEventContentsTask task2 = new GetEventContentsTask(this, eeee.getEventId());
 			task2.execute();
 		}
 
 		adapter.notifyDataSetChanged();
 	}
 
+	@Subscribe
+	public void eventContentDownloadedEvent(EventContentDownloadedEvent event) {
+		if (event.getEvent() == MainModel.getInstance().selectedEvent)
+			updateMenu();
+	}
+
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			selectItem(position);
 		}
 	}
@@ -252,10 +273,8 @@ public class MainActivity extends ActionBarActivity {
 			if (position > 3) {
 
 				Event event = MainModel.getInstance().selectedEvent;
-				ArrayList<EventContent> contentList = event
-						.getEventContentList();
-				MainModel.getInstance().selectedContent = contentList
-						.get(position - 4);
+				ArrayList<EventContent> contentList = event.getEventContentList();
+				MainModel.getInstance().selectedContent = contentList.get(position - 4);
 				mCurrentFragment = new ContentFragment();
 
 			} else
@@ -263,8 +282,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, mCurrentFragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, mCurrentFragment).commit();
 
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
@@ -277,12 +295,13 @@ public class MainActivity extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.main, menu);
 
 		mMenu = menu;
-		
-//		SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(menu
-//				.findItem(R.id.action_search));
-//
-//		mSearchView.setQueryHint("Search");
-//		mSearchView.setIconifiedByDefault(true);
+
+		// SearchView mSearchView = (SearchView)
+		// MenuItemCompat.getActionView(menu
+		// .findItem(R.id.action_search));
+		//
+		// mSearchView.setQueryHint("Search");
+		// mSearchView.setIconifiedByDefault(true);
 
 		// mSearchView.setOnQueryTextListener(this);
 		// mSearchView
@@ -315,9 +334,9 @@ public class MainActivity extends ActionBarActivity {
 			return true;
 
 		case R.id.action_message:
-			
+
 			break;
-			
+
 		case R.id.action_photo:
 			startCamera();
 			return true;
@@ -340,25 +359,20 @@ public class MainActivity extends ActionBarActivity {
 
 		try {
 			// place where to store camera taken picture
-			MainModel.getInstance().photo = this.createTemporaryFile("picture",
-					".jpg");
+			MainModel.getInstance().photo = this.createTemporaryFile("picture", ".jpg");
 			MainModel.getInstance().photo.delete();
 		} catch (Exception e) {
 			Log.d("DEBUG", "Can't create file to take picture!");
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
 		}
 		try {
-			MainModel.getInstance().imageUri = Uri.fromFile(MainModel
-					.getInstance().photo);
+			MainModel.getInstance().imageUri = Uri.fromFile(MainModel.getInstance().photo);
 
-			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-					MainModel.getInstance().imageUri);
+			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, MainModel.getInstance().imageUri);
 
 			startActivityForResult(takePictureIntent, RESULT_CAMERA_IMAGE);
 		} catch (Exception e) {
-			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Fénykép készítése jelenleg nem lehetséges!", Toast.LENGTH_SHORT).show();
 		}
 	}
 
